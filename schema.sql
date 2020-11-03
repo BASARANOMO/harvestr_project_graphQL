@@ -1,11 +1,23 @@
 CREATE TABLE "public"."Project" (
     id SERIAL PRIMARY KEY NOT NULL,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE "public"."Organization" (
+    "projectId" integer NOT NULL,
+    FOREIGN KEY ("projectId") REFERENCES "public"."Project"(id),
+    id SERIAL PRIMARY KEY NOT NULL,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE "public"."Person" (
+    "projectId" integer NOT NULL,
+    FOREIGN KEY ("projectId") REFERENCES "public"."Project"(id),
+    id SERIAL PRIMARY KEY NOT NULL,
     name VARCHAR(255) NOT NULL,
-    accountsId integer[] ELEMENT REFERENCES "public"."Account"
-    /*
-    accountsId int[],
-    FOREIGN KEY (EACH ELEMENT OF "accountsId") REFERENCES "public"."Acoount"(id)
-    */
+    email VARCHAR(255) NOT NULL,
+    "organizationId" integer NOT NULL,
+    FOREIGN KEY ("organizationId") REFERENCES "public"."Organization"(id)
 );
 
 CREATE TYPE "public"."ACCOUNT_TYPE" AS ENUM (
@@ -16,7 +28,10 @@ CREATE TABLE "public"."Account" (
     id SERIAL PRIMARY KEY NOT NULL,
     username VARCHAR(255) NOT NULL,
     "hashedPassword" VARCHAR(255) NOT NULL,
+    "personId" integer NOT NULL,
     FOREIGN KEY ("personId") REFERENCES "public"."Person"(id),
+    "projectId" integer NOT NULL,
+    FOREIGN KEY ("projectId") REFERENCES "public"."Project"(id),
     type "public"."ACCOUNT_TYPE"
 );
 
@@ -29,6 +44,7 @@ CREATE TYPE "public"."ENTITY_TYPE" AS ENUM (
 );
 
 CREATE TABLE "public"."ContributorAttribute" (
+    "projectId" integer NOT NULL,
     FOREIGN KEY ("projectId") REFERENCES "public"."Project"(id),
     id SERIAL NOT NULL,
     appliesTo "public"."ENTITY_TYPE",
@@ -37,18 +53,15 @@ CREATE TABLE "public"."ContributorAttribute" (
     PRIMARY KEY (id, type)
 );
 
-CREATE TABLE "public"."Organization" (
-    FOREIGN KEY ("projectId") REFERENCES "public"."Project"(id),
-    id SERIAL PRIMARY KEY NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    attributeValuesId integer[],
-    FOREIGN KEY (EACH ELEMENT OF "attributeValuesId") REFERENCES "public"."ContributorAttributeValue"(id)
-);
 
 CREATE TABLE "public"."ContributorAttributeValue" (
     id SERIAL PRIMARY KEY NOT NULL,
+    "ContributorAttributeId" integer NOT NULL,
+    "ContributorAttributeType" "public"."CONTRIBUTOR_ATTRIBUTE_TYPE" NOT NULL,
     FOREIGN KEY ("ContributorAttributeId", "ContributorAttributeType") REFERENCES "public"."ContributorAttribute"(id, type),
+    "personId" integer NOT NULL,
     FOREIGN KEY ("personId") REFERENCES "public"."Person"(id),
+    "organizationId" integer NOT NULL,
     FOREIGN KEY ("organizationId") REFERENCES "public"."Organization"(id),
     CONSTRAINT person_organization_not_null CHECK (
         NOT (
@@ -61,32 +74,44 @@ CREATE TABLE "public"."ContributorAttributeValue" (
     valueText TEXT  /* depends on ContributorAttributeType */
 );
 
-CREATE TABLE "public"."Person" (
+CREATE TABLE "public"."Message" (
+    "projectId" integer NOT NULL,
     FOREIGN KEY ("projectId") REFERENCES "public"."Project"(id),
     id SERIAL PRIMARY KEY NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    FOREIGN KEY ("organizationId") REFERENCES "public"."Organization"(id),
-    attributeValuesId integer[],
-    FOREIGN KEY (EACH ELEMENT OF "attributeValuesId") REFERENCES "public"."ContributorAttributeValue"(id)
+    "requesterId" integer NOT NULL,
+    FOREIGN KEY ("requesterId") REFERENCES "public"."Person"(id),
+    "submitterId" integer NOT NULL,
+    FOREIGN KEY ("submitterId") REFERENCES "public"."Person"(id),
+    "clientId" VARCHAR(255),
+    title VARCHAR(255),
+    content TEXT
 );
 
 CREATE TABLE "public"."SubMessage" (
     id SERIAL PRIMARY KEY NOT NULL,
+    "submitterId" integer NOT NULL,
     FOREIGN KEY ("submitterId") REFERENCES "public"."Person"(id),
-    content TEXT NOT NULL
+    content TEXT NOT NULL,
+    "messageId" integer NOT NULL,
+    FOREIGN KEY ("messageId") REFERENCES "public"."Message"(id)
 );
 
-CREATE TABLE "public"."Message" (
+CREATE TABLE "public"."Discovery" (
+    "projectId" integer NOT NULL,
     FOREIGN KEY ("projectId") REFERENCES "public"."Project"(id),
     id SERIAL PRIMARY KEY NOT NULL,
-    FOREIGN KEY ("requesterId") REFERENCES "public"."Person"(id),
-    FOREIGN KEY ("submitterId") REFERENCES "public"."Person"(id),
-    "clientId" VARCHAR(255),
-    title VARCHAR(255),
-    content TEXT,
-    subMessagesId TEXT[],
-    FOREIGN KEY (EACH ELEMENT OF "subMessagesId") REFERENCES "public"."SubMessage"(id)
+    title VARCHAR(255) NOT NULL,
+    description TEXT
+);
+
+CREATE TABLE "public"."Chunk" (
+    "projectId" integer NOT NULL,
+    FOREIGN KEY ("projectId") REFERENCES "public"."Project"(id),
+    id SERIAL PRIMARY KEY NOT NULL,
+    "messageId" integer NOT NULL,
+    FOREIGN KEY ("messageId") REFERENCES "public"."Message"(id),
+    "discoveryId" integer NOT NULL,
+    FOREIGN KEY ("discoveryId") REFERENCES "public"."Discovery"(id)
 );
 
 CREATE TABLE "public"."TextSelection" (
@@ -95,23 +120,6 @@ CREATE TABLE "public"."TextSelection" (
     length NUMERIC NOT NULL,
     subMessageNumber integer NOT NULL,
     content TEXT NOT NULL,
+    "chunkId" integer NOT NULL,
     FOREIGN KEY ("chunkId") REFERENCES "public"."Chunk"(id)
-);
-
-CREATE TABLE "public"."Chunk" (
-    FOREIGN KEY ("projectId") REFERENCES "public"."Project"(id),
-    id SERIAL PRIMARY KEY NOT NULL,
-    FOREIGN KEY ("messageId") REFERENCES "public"."Message"(id),
-    "selectionOffsetId" integer[],
-    FOREIGN KEY (EACH ELEMENT OF "selectionOffsetId") REFERENCES "public"."TextSelection"(id),
-    FOREIGN KEY ("discoveryId") REFERENCES "public"."Discovery"(id)
-);
-
-CREATE TABLE "public"."Discovery" (
-    FOREIGN KEY ("projectId") REFERENCES "public"."Project"(id),
-    id SERIAL PRIMARY KEY NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    "chunksId" integer[],
-    FOREIGN KEY ("chunksId") REFERENCES "public"."Chunk"(id)
 );

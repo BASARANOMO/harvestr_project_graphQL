@@ -1,11 +1,158 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
+model Account {
+  id             Int           @id @default(autoincrement())
+  username       String
+  hashedPassword String
+  personId       Int
+  projectId      Int
+  type           ACCOUNT_TYPE?
+  Person         Person        @relation(fields: [personId], references: [id])
+  Project        Project       @relation(fields: [projectId], references: [id])
+}
+
+model Chunk {
+  projectId     Int
+  id            Int             @id @default(autoincrement())
+  messageId     Int
+  discoveryId   Int
+  Discovery     Discovery       @relation(fields: [discoveryId], references: [id])
+  Message       Message         @relation(fields: [messageId], references: [id])
+  Project       Project         @relation(fields: [projectId], references: [id])
+  TextSelection TextSelection[]
+}
+
+model ContributorAttribute {
+  projectId                 Int
+  id                        Int                         @default(autoincrement())
+  appliesto                 ENTITY_TYPE?
+  name                      String
+  type                      CONTRIBUTOR_ATTRIBUTE_TYPE
+  Project                   Project                     @relation(fields: [projectId], references: [id])
+  ContributorAttributeValue ContributorAttributeValue[]
+
+  @@id([id, type])
+}
+
+model ContributorAttributeValue {
+  id                       Int                        @id @default(autoincrement())
+  ContributorAttributeId   Int
+  ContributorAttributeType CONTRIBUTOR_ATTRIBUTE_TYPE
+  personId                 Int
+  organizationId           Int
+  valuetext                String?
+  ContributorAttribute     ContributorAttribute       @relation(fields: [ContributorAttributeId, ContributorAttributeType], references: [id, type])
+  Organization             Organization               @relation(fields: [organizationId], references: [id])
+  Person                   Person                     @relation(fields: [personId], references: [id])
+
+  @@unique([ContributorAttributeId, personId, organizationId], name: "ContributorAttributeValue_ContributorAttributeId_personId_o_key")
+}
+
+model Discovery {
+  projectId   Int
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String?
+  Project     Project @relation(fields: [projectId], references: [id])
+  Chunk       Chunk[]
+}
+
+model Message {
+  projectId                          Int
+  id                                 Int          @id @default(autoincrement())
+  requesterId                        Int
+  submitterId                        Int
+  clientId                           String?
+  title                              String?
+  content                            String?
+  Project                            Project      @relation(fields: [projectId], references: [id])
+  Person_Message_requesterIdToPerson Person       @relation("Message_requesterIdToPerson", fields: [requesterId], references: [id])
+  Person_Message_submitterIdToPerson Person       @relation("Message_submitterIdToPerson", fields: [submitterId], references: [id])
+  Chunk                              Chunk[]
+  SubMessage                         SubMessage[]
+}
+
+model Organization {
+  projectId                 Int
+  id                        Int                         @id @default(autoincrement())
+  name                      String
+  Project                   Project                     @relation(fields: [projectId], references: [id])
+  ContributorAttributeValue ContributorAttributeValue[]
+  Person                    Person[]
+}
+
+model Person {
+  projectId                           Int
+  id                                  Int                         @id @default(autoincrement())
+  name                                String
+  email                               String
+  organizationId                      Int
+  Organization                        Organization                @relation(fields: [organizationId], references: [id])
+  Project                             Project                     @relation(fields: [projectId], references: [id])
+  Account                             Account[]
+  ContributorAttributeValue           ContributorAttributeValue[]
+  Message_Message_requesterIdToPerson Message[]                   @relation("Message_requesterIdToPerson")
+  Message_Message_submitterIdToPerson Message[]                   @relation("Message_submitterIdToPerson")
+  SubMessage                          SubMessage[]
+}
+
+model Project {
+  id                   Int                    @id @default(autoincrement())
+  name                 String
+  Account              Account[]
+  Chunk                Chunk[]
+  ContributorAttribute ContributorAttribute[]
+  Discovery            Discovery[]
+  Message              Message[]
+  Organization         Organization[]
+  Person               Person[]
+}
+
+model SubMessage {
+  id          Int     @id @default(autoincrement())
+  submitterId Int
+  content     String
+  messageId   Int
+  Message     Message @relation(fields: [messageId], references: [id])
+  Person      Person  @relation(fields: [submitterId], references: [id])
+}
+
+model TextSelection {
+  id               Int    @id @default(autoincrement())
+  offsetstart      Float
+  length           Float
+  submessagenumber Int
+  content          String
+  chunkId          Int
+  Chunk            Chunk  @relation(fields: [chunkId], references: [id])
+}
+
+enum ACCOUNT_TYPE {
+  MAIN_ADMIN
+  ADMIN
+  VIEWER
+}
+
+enum CONTRIBUTOR_ATTRIBUTE_TYPE {
+  TEXT
+  NUMERIC
+  FINANCIAL
+  DECIMAL
+  RATING
+  BOOLEAN
+  DATE
+  LIST
+  URL
+}
+
+enum ENTITY_TYPE {
+  Person
+  Organization
 }
