@@ -48,11 +48,11 @@ model ContributorAttributeValue {
   personId                 Int
   organizationId           Int
   valuetext                String?
-  contributorAttribute     ContributorAttribute       @relation(fields: [ContributorAttributeId, ContributorAttributeType], references: [id, type])
+  contributorAttribute     ContributorAttribute       @relation(fields: [contributorAttributeId, contributorAttributeType], references: [id, type])
   organization             Organization               @relation(fields: [organizationId], references: [id])
   person                   Person                     @relation(fields: [personId], references: [id])
 
-  @@unique([ContributorAttributeId, personId, organizationId], name: "ContributorAttributeValue_ContributorAttributeId_personId_o_key")
+  @@unique([contributorAttributeId, personId, organizationId], name: "ContributorAttributeValue_contributorAttributeId_personId_o_key")
 }
 
 model Discovery {
