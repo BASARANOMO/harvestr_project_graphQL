@@ -19,25 +19,35 @@ CREATE TYPE "public"."CONTRIBUTOR_ATTRIBUTE_TYPE" AS ENUM (
 
 CREATE TABLE "public"."ContributorAttribute" (
     FOREIGN KEY ("projectId") REFERENCES "public"."Project"(id) NOT NULL;
-    id SERIAL PRIMARY KEY NOT NULL,
-    /* appliesTo ?? */
+    id SERIAL NOT NULL,
+    appliesTo ENUM('Person', 'Organization'),
     name VARCHAR(255) NOT NULL,
-    type CONTRIBUTOR_ATTRIBUTE_TYPE
+    type CONTRIBUTOR_ATTRIBUTE_TYPE,
+    PRIMARY KEY (id, type)
 );
 
-CREATE TABLE "public"."Organisation" (
+CREATE TABLE "public"."Organization" (
     FOREIGN KEY ("projectId") REFERENCES "public"."Project"(id) NOT NULL;
     id SERIAL PRIMARY KEY NOT NULL,
     name VARCHAR(255) NOT NULL,
-    /* "attributeValues" */
+    attributeValuesId integer[],
+    FOREIGN KEY (EACH ELEMENT OF "attributeValuesId") REFERENCES "public"."ContributorAttributeValue"(id)
 );
 
 CREATE TABLE "public"."ContributorAttributeValue" (
     id SERIAL PRIMARY KEY NOT NULL,
-    FOREIGN KEY ("ContributorAttributeId") REFERENCES "public"."ContributorAttribute"(id) NOT NULL,
+    FOREIGN KEY ("ContributorAttributeId", "ContributorAttributeType") REFERENCES "public"."ContributorAttribute"(id, type) NOT NULL,
     FOREIGN KEY ("personId") REFERENCES "public"."Person"(id),
-    FOREIGN KEY ("organizationId") REFERENCES "public"."Organisation"(id)
-    /* value */
+    FOREIGN KEY ("organizationId") REFERENCES "public"."Organization"(id),
+    CONSTRAINT person_organization_not_null CHECK (
+        NOT (
+            ("personId" is NULL AND "organizationId" is NULL)
+            AND
+            ("personId" is NOT NULL AND "organizationId" is NOT NULL)
+        )
+    ),
+    UNIQUE ("ContributorAttributeId", "personId", "organizationId"),
+    valueText TEXT  /* depends on ContributorAttributeType */
 );
 
 CREATE TABLE "public"."Person" (
@@ -45,7 +55,7 @@ CREATE TABLE "public"."Person" (
     id SERIAL PRIMARY KEY NOT NULL,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    FOREIGN KEY ("organizationId") REFERENCES "public"."Organisation"(id),
+    FOREIGN KEY ("organizationId") REFERENCES "public"."Organization"(id),
     attributeValuesId integer[],
     FOREIGN KEY (EACH ELEMENT OF "attributeValuesId") REFERENCES "public"."ContributorAttributeValue"(id)
 );
@@ -70,8 +80,8 @@ CREATE TABLE "public"."Message" (
 
 CREATE TABLE "public"."TextSelection" (
     id SERIAL PRIMARY KEY NOT NULL,
-    offsetStart DECIMAL NOT NULL,
-    length DECIMAL NOT NULL,
+    offsetStart NUMERIC NOT NULL,
+    length NUMERIC NOT NULL,
     subMessageNumber integer NOT NULL,
     content TEXT NOT NULL,
     FOREIGN KEY ("chunkId") REFERENCES "public"."Chunk"(id) NOT NULL
