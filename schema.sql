@@ -47,7 +47,7 @@ CREATE TABLE "public"."ContributorAttribute" (
     "projectId" integer NOT NULL,
     FOREIGN KEY ("projectId") REFERENCES "public"."Project"(id),
     id SERIAL NOT NULL,
-    appliesTo "public"."ENTITY_TYPE",
+    "appliesTo" "public"."ENTITY_TYPE",
     name VARCHAR(255) NOT NULL,
     type "public"."CONTRIBUTOR_ATTRIBUTE_TYPE",
     PRIMARY KEY (id, type)

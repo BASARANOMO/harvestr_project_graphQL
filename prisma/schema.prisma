@@ -14,43 +14,43 @@ model Account {
   personId       Int
   projectId      Int
   type           ACCOUNT_TYPE?
-  Person         Person        @relation(fields: [personId], references: [id])
-  Project        Project       @relation(fields: [projectId], references: [id])
+  person         Person        @relation(fields: [personId], references: [id])
+  project        Project       @relation(fields: [projectId], references: [id])
 }
 
 model Chunk {
-  projectId     Int
-  id            Int             @id @default(autoincrement())
-  messageId     Int
-  discoveryId   Int
-  Discovery     Discovery       @relation(fields: [discoveryId], references: [id])
-  Message       Message         @relation(fields: [messageId], references: [id])
-  Project       Project         @relation(fields: [projectId], references: [id])
-  TextSelection TextSelection[]
+  projectId      Int
+  id             Int             @id @default(autoincrement())
+  messageId      Int
+  discoveryId    Int
+  discovery      Discovery       @relation(fields: [discoveryId], references: [id])
+  message        Message         @relation(fields: [messageId], references: [id])
+  project        Project         @relation(fields: [projectId], references: [id])
+  textSelections TextSelection[]
 }
 
 model ContributorAttribute {
-  projectId                 Int
-  id                        Int                         @default(autoincrement())
-  appliesto                 ENTITY_TYPE?
-  name                      String
-  type                      CONTRIBUTOR_ATTRIBUTE_TYPE
-  Project                   Project                     @relation(fields: [projectId], references: [id])
-  ContributorAttributeValue ContributorAttributeValue[]
+  projectId                  Int
+  id                         Int                         @default(autoincrement())
+  appliesTo                  ENTITY_TYPE?
+  name                       String
+  type                       CONTRIBUTOR_ATTRIBUTE_TYPE
+  project                    Project                     @relation(fields: [projectId], references: [id])
+  contributorAttributeValues ContributorAttributeValue[]
 
   @@id([id, type])
 }
 
 model ContributorAttributeValue {
   id                       Int                        @id @default(autoincrement())
-  ContributorAttributeId   Int
-  ContributorAttributeType CONTRIBUTOR_ATTRIBUTE_TYPE
+  contributorAttributeId   Int
+  contributorAttributeType CONTRIBUTOR_ATTRIBUTE_TYPE
   personId                 Int
   organizationId           Int
   valuetext                String?
-  ContributorAttribute     ContributorAttribute       @relation(fields: [ContributorAttributeId, ContributorAttributeType], references: [id, type])
-  Organization             Organization               @relation(fields: [organizationId], references: [id])
-  Person                   Person                     @relation(fields: [personId], references: [id])
+  contributorAttribute     ContributorAttribute       @relation(fields: [ContributorAttributeId, ContributorAttributeType], references: [id, type])
+  organization             Organization               @relation(fields: [organizationId], references: [id])
+  person                   Person                     @relation(fields: [personId], references: [id])
 
   @@unique([ContributorAttributeId, personId, organizationId], name: "ContributorAttributeValue_ContributorAttributeId_personId_o_key")
 }
@@ -60,8 +60,8 @@ model Discovery {
   id          Int     @id @default(autoincrement())
   title       String
   description String?
-  Project     Project @relation(fields: [projectId], references: [id])
-  Chunk       Chunk[]
+  project     Project @relation(fields: [projectId], references: [id])
+  chunks      Chunk[]
 }
 
 model Message {
@@ -72,47 +72,47 @@ model Message {
   clientId                           String?
   title                              String?
   content                            String?
-  Project                            Project      @relation(fields: [projectId], references: [id])
-  Person_Message_requesterIdToPerson Person       @relation("Message_requesterIdToPerson", fields: [requesterId], references: [id])
-  Person_Message_submitterIdToPerson Person       @relation("Message_submitterIdToPerson", fields: [submitterId], references: [id])
-  Chunk                              Chunk[]
-  SubMessage                         SubMessage[]
+  project                            Project      @relation(fields: [projectId], references: [id])
+  person_Message_requesterIdToPerson Person       @relation("Message_requesterIdToPerson", fields: [requesterId], references: [id])
+  person_Message_submitterIdToPerson Person       @relation("Message_submitterIdToPerson", fields: [submitterId], references: [id])
+  chunks                             Chunk[]
+  subMessages                        SubMessage[]
 }
 
 model Organization {
-  projectId                 Int
-  id                        Int                         @id @default(autoincrement())
-  name                      String
-  Project                   Project                     @relation(fields: [projectId], references: [id])
-  ContributorAttributeValue ContributorAttributeValue[]
-  Person                    Person[]
+  projectId                  Int
+  id                         Int                         @id @default(autoincrement())
+  name                       String
+  project                    Project                     @relation(fields: [projectId], references: [id])
+  contributorAttributeValues ContributorAttributeValue[]
+  persons                    Person[]
 }
 
 model Person {
-  projectId                           Int
-  id                                  Int                         @id @default(autoincrement())
-  name                                String
-  email                               String
-  organizationId                      Int
-  Organization                        Organization                @relation(fields: [organizationId], references: [id])
-  Project                             Project                     @relation(fields: [projectId], references: [id])
-  Account                             Account[]
-  ContributorAttributeValue           ContributorAttributeValue[]
-  Message_Message_requesterIdToPerson Message[]                   @relation("Message_requesterIdToPerson")
-  Message_Message_submitterIdToPerson Message[]                   @relation("Message_submitterIdToPerson")
-  SubMessage                          SubMessage[]
+  projectId                            Int
+  id                                   Int                         @id @default(autoincrement())
+  name                                 String
+  email                                String
+  organizationId                       Int
+  organization                         Organization                @relation(fields: [organizationId], references: [id])
+  project                              Project                     @relation(fields: [projectId], references: [id])
+  accounts                             Account[]
+  contributorAttributeValues           ContributorAttributeValue[]
+  message_Message_requesterIdToPersons Message[]                   @relation("Message_requesterIdToPerson")
+  message_Message_submitterIdToPersons Message[]                   @relation("Message_submitterIdToPerson")
+  subMessages                          SubMessage[]
 }
 
 model Project {
-  id                   Int                    @id @default(autoincrement())
-  name                 String
-  Account              Account[]
-  Chunk                Chunk[]
-  ContributorAttribute ContributorAttribute[]
-  Discovery            Discovery[]
-  Message              Message[]
-  Organization         Organization[]
-  Person               Person[]
+  id                    Int                    @id @default(autoincrement())
+  name                  String
+  accounts              Account[]
+  chunks                Chunk[]
+  contributorAttributes ContributorAttribute[]
+  discoverys            Discovery[]
+  messages              Message[]
+  organizations         Organization[]
+  persons               Person[]
 }
 
 model SubMessage {
@@ -120,8 +120,8 @@ model SubMessage {
   submitterId Int
   content     String
   messageId   Int
-  Message     Message @relation(fields: [messageId], references: [id])
-  Person      Person  @relation(fields: [submitterId], references: [id])
+  message     Message @relation(fields: [messageId], references: [id])
+  person      Person  @relation(fields: [submitterId], references: [id])
 }
 
 model TextSelection {
@@ -131,7 +131,7 @@ model TextSelection {
   submessagenumber Int
   content          String
   chunkId          Int
-  Chunk            Chunk  @relation(fields: [chunkId], references: [id])
+  chunk            Chunk  @relation(fields: [chunkId], references: [id])
 }
 
 enum ACCOUNT_TYPE {
