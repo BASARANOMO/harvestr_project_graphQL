@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "apollo-server": "^2.19.0",
-    "graphql": "^15.4.0"
+    "graphql": "^15.4.0",
+    "graphql-tools": "^7.0.1",
+    "graphql-yoga": "^1.18.3"
   }
 }
