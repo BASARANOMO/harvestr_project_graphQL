@@ -37,6 +37,10 @@ export interface NexusGenRootTypes {
     id?: number | null; // Int
     username?: string | null; // String
   }
+  Project: { // root type
+    id?: number | null; // Int
+    name?: string | null; // String
+  }
   Query: {};
 }
 
@@ -53,8 +57,12 @@ export interface NexusGenFieldTypes {
     id: number | null; // Int
     username: string | null; // String
   }
+  Project: { // field return type
+    id: number | null; // Int
+    name: string | null; // String
+  }
   Query: { // field return type
-    accounts: Array<NexusGenRootTypes['Account'] | null> | null; // [Account]
+    projects: Array<NexusGenRootTypes['Project'] | null> | null; // [Project]
   }
 }
 
@@ -63,8 +71,12 @@ export interface NexusGenFieldTypeNames {
     id: 'Int'
     username: 'String'
   }
+  Project: { // field return type name
+    id: 'Int'
+    name: 'String'
+  }
   Query: { // field return type name
-    accounts: 'Account'
+    projects: 'Project'
   }
 }
 
@@ -76,7 +88,7 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Account" | "Query";
+export type NexusGenObjectNames = "Account" | "Project" | "Query";
 
 export type NexusGenInputNames = never;
 

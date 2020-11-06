@@ -1,11 +1,11 @@
-const { PrismaClient } = require('@prisma/client')
+import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-function createContext() {
-    return { prisma }
+export interface Context {
+    prisma: PrismaClient
 }
 
-module.exports = {
-    createContext
+export function createContext(): Context {
+    return { prisma }
 }

@@ -7,6 +7,11 @@ type Account {
   username: String
 }
 
+type Project {
+  id: Int
+  name: String
+}
+
 type Query {
-  accounts: [Account]
+  projects: [Project]
 }

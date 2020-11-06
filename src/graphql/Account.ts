@@ -8,6 +8,7 @@ export const Account = objectType({
     },
 })
 
+/*
 export const AccountQuery = extendType({
     type: 'Query',
     definition(t) {
@@ -15,9 +16,10 @@ export const AccountQuery = extendType({
             type: 'Account',
             list: true,
             resolve(_, args, ctx) {
-                //return ctx.prisma.account.findMany()
-                return [{id: 1, username: 'Jack'}]
+                return ctx.prisma.account.findMany()
+                //return [{id: 1, username: 'Jack'}]
             },
         })
     },
 })
+*/
