@@ -1,5 +1,12 @@
+/*
+THIS FILE IS AN EXAMPLE
+NO NEED TO BE USED
+*/
+
+const { PrismaClient } = require('@prisma/client');
 const {ApolloServer, gql} = require('apollo-server');
 
+/*
 const typeDefs = gql`
     type Project {
         id: String
@@ -11,6 +18,7 @@ const typeDefs = gql`
         info: String!
     }
 `;
+*/
 
 const resolvers = {
     Query: {
@@ -19,7 +27,10 @@ const resolvers = {
     },
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({ 
+    typeDefs: './src/schema.graphql', 
+    resolvers 
+});
 
 server.listen().then(({ url }) => {
     console.log(`🚀  Server ready at ${url}`);
