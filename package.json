@@ -21,7 +21,6 @@
     "apollo-server": "^2.19.0",
     "graphql": "^15.4.0",
     "nexus": "^0.30.1",
-    "nexus-plugin-prisma": "^0.23.1",
-    "nexus-prisma": "^0.16.2"
+    "nexus-plugin-prisma": "^0.23.1"
   }
 }

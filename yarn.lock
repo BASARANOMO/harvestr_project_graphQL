@@ -1367,11 +1367,6 @@ nexus-plugin-prisma@^0.23.1:
     pluralize "^8.0.0"
     semver "^7.3.2"
 
-nexus-prisma@^0.16.2:
-  version "0.16.2"
-  resolved "https://registry.yarnpkg.com/nexus-prisma/-/nexus-prisma-0.16.2.tgz#c2923f97c7565352eb532190ea46873a4982c9de"
-  integrity sha512-vtEtYrdpu+IG5oFtsbVdHA+Sd+Zm51qMURtXkVC1VIcEJ8Zj+xGe9at2nsU9g/QcRwx4t0DcQIdXTd8pu+thmQ==
-
 nexus@^0.30.1:
   version "0.30.1"
   resolved "https://registry.yarnpkg.com/nexus/-/nexus-0.30.1.tgz#eb0d789d892d9b6164bf94070d8be6da982a2045"
