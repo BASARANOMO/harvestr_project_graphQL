@@ -1,10 +1,11 @@
 import { objectType, extendType } from '@nexus/schema'
+import { nexusSchemaPrisma } from "nexus-plugin-prisma/schema"
 
 export const Account = objectType({
     name: 'Account',
     definition(t) {
-        t.int('id')
-        t.string('username')
+        t.model.id(),
+        t.model.username()
     },
 })
 

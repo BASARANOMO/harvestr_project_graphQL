@@ -1,10 +1,11 @@
 import { objectType, extendType } from '@nexus/schema'
+import { nexusSchemaPrisma } from "nexus-plugin-prisma/schema"
 
 export const Project = objectType({
     name: 'Project',
     definition(t) {
-        t.int('id')
-        t.string('name')
+        t.model.id(),
+        t.model.name()
     },
 })
 
