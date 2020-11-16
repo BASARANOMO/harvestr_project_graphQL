@@ -3,6 +3,7 @@ import { nexusPrisma } from 'nexus-plugin-prisma'
 import * as typeDefs from './api/graphql'
 
 export const schema = makeSchema({
+    shouldExitAfterGenerateArtifacts: process.env.NEXUS_SHOULD_EXIT_AFTER_GENERATE_ARTIFACTS === 'true',
     types: typeDefs,
     plugins: [nexusPrisma({ experimentalCRUD: true })],
     outputs: {

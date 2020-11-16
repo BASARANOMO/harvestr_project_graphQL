@@ -1,4 +1,5 @@
 import { objectType, extendType } from '@nexus/schema'
+import { nexusPrisma } from 'nexus-plugin-prisma'
 
 export const Project = objectType({
     name: 'Project',
