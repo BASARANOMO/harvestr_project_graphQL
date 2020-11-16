@@ -1,30 +1,23 @@
-<<<<<<< HEAD
-import { objectType, extendType } from '@nexus/schema'
-import { nexusSchemaPrisma } from "nexus-plugin-prisma/schema"
-=======
 import { objectType, extendType, enumType } from '@nexus/schema'
+import { nexusSchemaPrisma } from "nexus-plugin-prisma/schema"
+
 
 export const Account_Type = enumType({
     name: "Type",
     members: ["MAIN_ADMIN","ADMIN","VIEWER"]
   });
->>>>>>> b413341561acc131ad27055793ceb68e5419551c
+
 
 export const Account = objectType({
     name: 'Account',
     definition(t) {
-<<<<<<< HEAD
+
         t.model.id(),
-        t.model.username()
+        t.model.username(),
+        t.model.hashedPassword(),
+        t.model.personId(),
+        t.model.projectId()
     },
-=======
-        t.int('id')
-        t.string('username')
-        t.string('hashedPassword')
-        t.int('personId')
-        t.int('projectId')
-    }
->>>>>>> b413341561acc131ad27055793ceb68e5419551c
 })
 
 
