@@ -1,6 +1,4 @@
 import { objectType, extendType, enumType } from '@nexus/schema'
-import { nexusSchemaPrisma } from "nexus-plugin-prisma/schema"
-
 
 export const Account_Type = enumType({
     name: "Type",
@@ -11,12 +9,11 @@ export const Account_Type = enumType({
 export const Account = objectType({
     name: 'Account',
     definition(t) {
-
-        t.model.id(),
-        t.model.username(),
-        t.model.hashedPassword(),
-        t.model.personId(),
-        t.model.projectId()
+        t.int("id"),
+        t.string("username"),
+        t.string("hashedPassword"),
+        t.int("personId"),
+        t.int("projectId")
     },
 })
 

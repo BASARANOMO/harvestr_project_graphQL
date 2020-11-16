@@ -3,7 +3,10 @@
 
 
 type Account {
+  hashedPassword: String
   id: Int
+  personId: Int
+  projectId: Int
   username: String
 }
 
@@ -13,5 +16,12 @@ type Project {
 }
 
 type Query {
+  accounts: [Account]
   projects: [Project]
+}
+
+enum Type {
+  ADMIN
+  MAIN_ADMIN
+  VIEWER
 }

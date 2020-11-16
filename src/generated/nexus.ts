@@ -22,6 +22,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
+  Type: "ADMIN" | "MAIN_ADMIN" | "VIEWER"
 }
 
 export interface NexusGenScalars {
@@ -34,7 +35,10 @@ export interface NexusGenScalars {
 
 export interface NexusGenRootTypes {
   Account: { // root type
+    hashedPassword?: string | null; // String
     id?: number | null; // Int
+    personId?: number | null; // Int
+    projectId?: number | null; // Int
     username?: string | null; // String
   }
   Project: { // root type
@@ -45,6 +49,7 @@ export interface NexusGenRootTypes {
 }
 
 export interface NexusGenAllTypes extends NexusGenRootTypes {
+  Type: NexusGenEnums['Type'];
   String: NexusGenScalars['String'];
   Int: NexusGenScalars['Int'];
   Float: NexusGenScalars['Float'];
@@ -54,7 +59,10 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
 
 export interface NexusGenFieldTypes {
   Account: { // field return type
+    hashedPassword: string | null; // String
     id: number | null; // Int
+    personId: number | null; // Int
+    projectId: number | null; // Int
     username: string | null; // String
   }
   Project: { // field return type
@@ -62,13 +70,17 @@ export interface NexusGenFieldTypes {
     name: string | null; // String
   }
   Query: { // field return type
+    accounts: Array<NexusGenRootTypes['Account'] | null> | null; // [Account]
     projects: Array<NexusGenRootTypes['Project'] | null> | null; // [Project]
   }
 }
 
 export interface NexusGenFieldTypeNames {
   Account: { // field return type name
+    hashedPassword: 'String'
     id: 'Int'
+    personId: 'Int'
+    projectId: 'Int'
     username: 'String'
   }
   Project: { // field return type name
@@ -76,6 +88,7 @@ export interface NexusGenFieldTypeNames {
     name: 'String'
   }
   Query: { // field return type name
+    accounts: 'Account'
     projects: 'Project'
   }
 }
@@ -92,7 +105,7 @@ export type NexusGenObjectNames = "Account" | "Project" | "Query";
 
 export type NexusGenInputNames = never;
 
-export type NexusGenEnumNames = never;
+export type NexusGenEnumNames = "Type";
 
 export type NexusGenInterfaceNames = never;
 
