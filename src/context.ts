@@ -3,9 +3,9 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export type Context = {
-    prisma: PrismaClient
+  prisma: PrismaClient
 }
 
-export const createContext = (): Context=> ({
-    prisma,
+export const createContext = (): Context => ({
+  prisma,
 })
