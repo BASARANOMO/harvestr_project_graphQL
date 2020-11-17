@@ -9,11 +9,11 @@ export const Account_Type = enumType({
 export const Account = objectType({
     name: 'Account',
     definition(t) {
-        t.int("id"),
-        t.string("username"),
-        t.string("hashedPassword"),
-        t.int("personId"),
-        t.int("projectId")
+        t.model.id()
+        t.model.username()
+        t.model.hashedPassword()
+        t.model.personId()
+        t.model.projectId()
     },
 })
 

@@ -3,16 +3,16 @@
 
 
 type Account {
-  hashedPassword: String
-  id: Int
-  personId: Int
-  projectId: Int
-  username: String
+  hashedPassword: String!
+  id: Int!
+  personId: Int!
+  projectId: Int!
+  username: String!
 }
 
 type Project {
-  id: Int
-  name: String
+  id: Int!
+  name: String!
 }
 
 type Query {

@@ -35,15 +35,15 @@ export interface NexusGenScalars {
 
 export interface NexusGenRootTypes {
   Account: { // root type
-    hashedPassword?: string | null; // String
-    id?: number | null; // Int
-    personId?: number | null; // Int
-    projectId?: number | null; // Int
-    username?: string | null; // String
+    hashedPassword: string; // String!
+    id: number; // Int!
+    personId: number; // Int!
+    projectId: number; // Int!
+    username: string; // String!
   }
   Project: { // root type
-    id?: number | null; // Int
-    name?: string | null; // String
+    id: number; // Int!
+    name: string; // String!
   }
   Query: {};
 }
@@ -59,15 +59,15 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
 
 export interface NexusGenFieldTypes {
   Account: { // field return type
-    hashedPassword: string | null; // String
-    id: number | null; // Int
-    personId: number | null; // Int
-    projectId: number | null; // Int
-    username: string | null; // String
+    hashedPassword: string; // String!
+    id: number; // Int!
+    personId: number; // Int!
+    projectId: number; // Int!
+    username: string; // String!
   }
   Project: { // field return type
-    id: number | null; // Int
-    name: string | null; // String
+    id: number; // Int!
+    name: string; // String!
   }
   Query: { // field return type
     accounts: Array<NexusGenRootTypes['Account'] | null> | null; // [Account]
