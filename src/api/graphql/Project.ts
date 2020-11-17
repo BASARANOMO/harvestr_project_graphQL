@@ -1,4 +1,3 @@
-import { NexusGenInheritedFields } from './../../generated/nexus';
 import { objectType, extendType } from '@nexus/schema'
 
 export const Project = objectType({

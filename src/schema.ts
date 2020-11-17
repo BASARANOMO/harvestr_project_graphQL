@@ -7,7 +7,7 @@ export const schema = makeSchema({
     plugins: [nexusPrisma({ experimentalCRUD: true })],
     outputs: {
         schema: __dirname + '/generated/schema.graphql',
-        typegen: __dirname + '/generated/nexus.ts',
+        typegen: __dirname + '../../node_modules/@types/nexus-typegen/index.d.ts',
     },
     typegenAutoConfig: {
         contextType: 'Context.Context',

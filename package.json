@@ -1,9 +1,14 @@
 {
   "name": "project_graphQL",
   "version": "1.0.0",
+  "main": "src/server.ts",
   "description": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "yarn -s clean && yarn -s generate && tsc",
+    "generate": "yarn -s generate:prisma && yarn -s genearate:nexus",
+    "generate:prisma": "prisma generate",
+    "generate:nexus": "NODE_ENV=development ts-node --transpile-only src/schema"
   },
   "keywords": [],
   "author": "",
