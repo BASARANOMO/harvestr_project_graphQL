@@ -5,6 +5,13 @@ export const Project = objectType({
   definition(t) {
     t.model.id()
     t.model.name()
+    t.model.accounts()
+    t.model.chunks()
+    t.model.contributorAttributes()
+    t.model.discoverys()
+    t.model.messages()
+    //t.model.organizations()
+    //t.model.persons()
   },
 })
 

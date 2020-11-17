@@ -10,17 +10,181 @@ type Account {
   username: String!
 }
 
-type Project {
+input AccountWhereUniqueInput {
+  id: Int
+}
+
+type Chunk {
+  discoveryId: Int!
   id: Int!
+  messageId: Int!
+  projectId: Int!
+}
+
+input ChunkWhereUniqueInput {
+  id: Int
+}
+
+enum CONTRIBUTOR_ATTRIBUTE_TYPE {
+  BOOLEAN
+  DATE
+  DECIMAL
+  FINANCIAL
+  LIST
+  NUMERIC
+  RATING
+  TEXT
+  URL
+}
+
+enum contributor_type {
+  BOOLEAN
+  DATE
+  DECIMAL
+  FINANCIAL
+  LIST
+  NUMERIC
+  RATING
+  TEXT
+  URL
+}
+
+type ContributorAttribute {
+  id: Int!
+  name: String!
+  project: Project!
+  projectId: Int!
+}
+
+type ContributorAttributeValue {
+  contributorAttribute: ContributorAttribute!
+  contributorAttributeId: Int!
+  id: Int!
+  organizationId: Int!
+  personId: Int!
+  valuetext: String
+}
+
+input ContributorAttributeValue_contributorAttributeId_personId_o_keyCompoundUniqueInput {
+  contributorAttributeId: Int!
+  organizationId: Int!
+  personId: Int!
+}
+
+input ContributorAttributeValueWhereUniqueInput {
+  ContributorAttributeValue_contributorAttributeId_personId_o_key: ContributorAttributeValue_contributorAttributeId_personId_o_keyCompoundUniqueInput
+  id: Int
+}
+
+input ContributorAttributeWhereUniqueInput {
+  id_type: IdTypeCompoundUniqueInput
+}
+
+type Discovery {
+  chunks(after: ChunkWhereUniqueInput, before: ChunkWhereUniqueInput, first: Int, last: Int): [Chunk!]!
+  description: String
+  id: Int!
+  project: Project!
+  projectId: Int!
+  title: String!
+}
+
+input DiscoveryWhereUniqueInput {
+  id: Int
+}
+
+enum entity_type {
+  Organization
+  Person
+}
+
+input IdTypeCompoundUniqueInput {
+  id: Int!
+  type: CONTRIBUTOR_ATTRIBUTE_TYPE!
+}
+
+type Message {
+  chunks(after: ChunkWhereUniqueInput, before: ChunkWhereUniqueInput, first: Int, last: Int): [Chunk!]!
+  clientId: String
+  content: String
+  id: Int!
+  project: Project!
+  projectId: Int!
+  requesterId: Int!
+  submitterId: Int!
+  title: String
+}
+
+input MessageWhereUniqueInput {
+  id: Int
+}
+
+type Organization {
+  contributorAttributeValues(after: ContributorAttributeValueWhereUniqueInput, before: ContributorAttributeValueWhereUniqueInput, first: Int, last: Int): [ContributorAttributeValue!]!
+  id: Int!
+  name: String!
+  project: Project!
+  projectId: Int!
+}
+
+type Person {
+  accounts(after: AccountWhereUniqueInput, before: AccountWhereUniqueInput, first: Int, last: Int): [Account!]!
+  contributorAttributeValues(after: ContributorAttributeValueWhereUniqueInput, before: ContributorAttributeValueWhereUniqueInput, first: Int, last: Int): [ContributorAttributeValue!]!
+  email: String!
+  id: Int!
+  message_Message_requesterIdToPersons(after: MessageWhereUniqueInput, before: MessageWhereUniqueInput, first: Int, last: Int): [Message!]!
+  message_Message_submitterIdToPersons(after: MessageWhereUniqueInput, before: MessageWhereUniqueInput, first: Int, last: Int): [Message!]!
+  name: String!
+  organization: Organization!
+  organizationId: Int!
+  project: Project!
+  projectId: Int!
+}
+
+type Project {
+  accounts(after: AccountWhereUniqueInput, before: AccountWhereUniqueInput, first: Int, last: Int): [Account!]!
+  chunks(after: ChunkWhereUniqueInput, before: ChunkWhereUniqueInput, first: Int, last: Int): [Chunk!]!
+  contributorAttributes(after: ContributorAttributeWhereUniqueInput, before: ContributorAttributeWhereUniqueInput, first: Int, last: Int): [ContributorAttribute!]!
+  discoverys(after: DiscoveryWhereUniqueInput, before: DiscoveryWhereUniqueInput, first: Int, last: Int): [Discovery!]!
+  id: Int!
+  messages(after: MessageWhereUniqueInput, before: MessageWhereUniqueInput, first: Int, last: Int): [Message!]!
   name: String!
 }
 
 type Query {
   accounts: [Account]
+  chunks: [Chunk]
+  contributor_attribute_value: [ContributorAttributeValue]
+  contributor_attributes: [ContributorAttribute]
+  discovery: [Discovery]
+  message: [Message]
+  organizations: [Organization]
+  persons: [Person]
   projects: [Project]
+  sub_messages: [SubMessage]
+  text_selection: [TextSelection]
 }
 
-enum Type {
+type SubMessage {
+  content: String!
+  id: Int!
+  message: Message!
+  messageId: Int!
+  person: Person!
+  submitterId: Int!
+}
+
+type TextSelection {
+  chunk: Chunk!
+  chunkId: Int!
+  content: String!
+  id: Int!
+  length: Float!
+  offsetstart: Float!
+  submessagenumber: Int!
+}
+
+enum ype {
   ADMIN
   MAIN_ADMIN
   VIEWER

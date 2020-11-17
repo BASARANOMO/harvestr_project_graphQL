@@ -1,7 +1,7 @@
 import { objectType, extendType, enumType } from '@nexus/schema'
 
-export const Account_Type = enumType({
-  name: 'Type',
+export const ACCOUNT_TYPE = enumType({
+  name: 'account_type',
   members: ['MAIN_ADMIN', 'ADMIN', 'VIEWER'],
 })
 
@@ -13,13 +13,14 @@ export const Account = objectType({
     t.model.hashedPassword()
     t.model.personId()
     t.model.projectId()
+    //t.model.type()
   },
 })
 
 export const AccountQuery = extendType({
   type: 'Query',
   definition(t) {
-    t.field('accounts', {
+    t.list.field('accounts', {
       type: 'Account',
       list: true,
       resolve(_, args, ctx) {
