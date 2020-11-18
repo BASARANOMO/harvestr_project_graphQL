@@ -13,7 +13,7 @@ export const Account = objectType({
     t.model.hashedPassword()
     t.model.project()
     t.model.person()
-    t.field('type', {type: 'account_type'});
+    t.field('type', { type: 'account_type' })
   },
 })
 
@@ -24,7 +24,7 @@ export const AccountQuery = extendType({
       // Call account as a function, with id as input
       // Le passer dans le findMany
       args: {
-        id: stringArg()
+        id: stringArg(),
       },
       type: 'Account',
       //list: true,

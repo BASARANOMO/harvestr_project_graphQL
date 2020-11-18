@@ -5,8 +5,9 @@
 type Account {
   hashedPassword: String!
   id: Int!
-  personId: Int!
-  projectId: Int!
+  person: Person!
+  project: Project!
+  type: account_type
   username: String!
 }
 
@@ -158,7 +159,7 @@ type Project {
 }
 
 type Query {
-  accounts: [Account]
+  accounts(id: String): [Account]
   chunks: [Chunk]
   contributor_attribute_value: [ContributorAttributeValue]
   contributor_attributes: [ContributorAttribute]
