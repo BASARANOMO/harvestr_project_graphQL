@@ -10,6 +10,12 @@ type Account {
   username: String!
 }
 
+enum account_type {
+  ADMIN
+  MAIN_ADMIN
+  VIEWER
+}
+
 input AccountWhereUniqueInput {
   id: Int
 }
@@ -182,10 +188,4 @@ type TextSelection {
   length: Float!
   offsetstart: Float!
   submessagenumber: Int!
-}
-
-enum ype {
-  ADMIN
-  MAIN_ADMIN
-  VIEWER
 }

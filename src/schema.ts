@@ -4,7 +4,7 @@ import * as typeDefs from './api/graphql'
 
 export const schema = makeSchema({
   types: typeDefs,
-  plugins: [nexusPrisma({ experimentalCRUD: true })],
+  plugins: [nexusPrisma()],
   outputs: {
     schema: __dirname + '../../generated/schema.graphql',
     typegen: __dirname + '../../node_modules/@types/nexus-typegen/index.d.ts',
