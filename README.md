@@ -1,3 +1,12 @@
+# Getting started
+$ yarn
+$ yarn build
+$ yarn run:server
+
+## To make your code prettier
+$ yarn style
+
+# Project overview
 Development env: UNIX / MacOS / LINUX
 
 IDE: VSCode
