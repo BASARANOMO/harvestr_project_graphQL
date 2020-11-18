@@ -1,6 +1,8 @@
 # Getting started
 $ yarn
+
 $ yarn build
+
 $ yarn run:server
 
 ## To make your code prettier
