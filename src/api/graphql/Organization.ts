@@ -1,10 +1,5 @@
 import { objectType, extendType, enumType } from '@nexus/schema'
 
-export const ENTITY_TYPE = enumType({
-  name: 'entity_type',
-  members: ['Person', 'Organization'],
-})
-
 export const Organization = objectType({
   name: 'Organization',
   definition(t) {

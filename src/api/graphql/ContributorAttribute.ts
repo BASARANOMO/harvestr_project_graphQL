@@ -15,14 +15,19 @@ export const CONTRIBUTOR_ATTRIBUTE_TYPE = enumType({
   ],
 })
 
+export const ENTITY_TYPE = enumType({
+  name: 'entity_type',
+  members: ['Person', 'Organization'],
+})
+
 export const ContributorAttribute = objectType({
   name: 'ContributorAttribute',
   definition(t) {
     t.model.projectId()
     t.model.id()
-    //t.model.appliesTo()
+    t.field('type', { type: 'entity_type' })
     t.model.name()
-    //t.model.type()
+    t.field('type', { type: 'contributor_type' })
     t.model.project()
     //t.model.contributorAttributeValues()
   },
