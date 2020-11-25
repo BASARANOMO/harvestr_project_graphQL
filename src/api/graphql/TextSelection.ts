@@ -1,4 +1,4 @@
-import { objectType, extendType } from '@nexus/schema'
+import { objectType, extendType, stringArg } from '@nexus/schema'
 
 export const TextSelection = objectType({
   name: 'TextSelection',
@@ -16,12 +16,18 @@ export const TextSelection = objectType({
 export const TextSelectionQuery = extendType({
   type: 'Query',
   definition(t) {
-    t.field('text_selection', {
+    t.list.field('text_selection', {
+      // Call text_selection as a function, with id as input
+      // Le passer dans le findMany pour filtrer
+      args: {
+        id: stringArg(),
+      },
       type: 'TextSelection',
-      list: true,
       resolve(_, args, ctx) {
         return ctx.prisma.textSelection.findMany()
-        //return [{id: 1, username: 'Jack'}]
+        //return ctx.prisma.textSelection.findMany({
+        //  where: { id: 1 },
+        //})
       },
     })
   },

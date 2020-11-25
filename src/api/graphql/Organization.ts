@@ -1,4 +1,4 @@
-import { objectType, extendType, enumType } from '@nexus/schema'
+import { objectType, extendType, stringArg } from '@nexus/schema'
 
 export const Organization = objectType({
   name: 'Organization',
@@ -15,12 +15,18 @@ export const Organization = objectType({
 export const OrganizationQuery = extendType({
   type: 'Query',
   definition(t) {
-    t.field('organizations', {
+    t.list.field('organizations', {
+      // Call organizations as a function, with id as input
+      // Le passer dans le findMany pour filtrer
+      args: {
+        id: stringArg(),
+      },
       type: 'Organization',
-      list: true,
       resolve(_, args, ctx) {
         return ctx.prisma.organization.findMany()
-        //return [{id: 1, username: 'Jack'}]
+        //return ctx.prisma.organization.findMany({
+        //  where: { id: 1 },
+        //})
       },
     })
   },

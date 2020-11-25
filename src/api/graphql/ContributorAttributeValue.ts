@@ -1,4 +1,4 @@
-import { objectType, extendType } from '@nexus/schema'
+import { objectType, extendType, stringArg } from '@nexus/schema'
 
 export const ContributorAttributeValue = objectType({
   name: 'ContributorAttributeValue',
@@ -18,12 +18,18 @@ export const ContributorAttributeValue = objectType({
 export const ContributorAttributeValueQuery = extendType({
   type: 'Query',
   definition(t) {
-    t.field('contributor_attribute_value', {
+    t.list.field('contributor_attribute_value', {
+      // Call contributor_attribute_value as a function, with id as input
+      // Le passer dans le findMany pour filtrer
+      args: {
+        id: stringArg(),
+      },
       type: 'ContributorAttributeValue',
-      list: true,
       resolve(_, args, ctx) {
         return ctx.prisma.contributorAttributeValue.findMany()
-        //return [{id: 1, username: 'Jack'}]
+        //return ctx.prisma.contributorAttributeValue.findMany({
+        //  where: { id: 1 },
+        //})
       },
     })
   },

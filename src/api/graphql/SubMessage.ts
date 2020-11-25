@@ -1,4 +1,4 @@
-import { objectType, extendType } from '@nexus/schema'
+import { objectType, extendType, stringArg } from '@nexus/schema'
 
 export const SubMessage = objectType({
   name: 'SubMessage',
@@ -15,12 +15,18 @@ export const SubMessage = objectType({
 export const SubMessageQuery = extendType({
   type: 'Query',
   definition(t) {
-    t.field('sub_messages', {
+    t.list.field('sub_messages', {
+      // Call sub_messages as a function, with id as input
+      // Le passer dans le findMany pour filtrer
+      args: {
+        id: stringArg(),
+      },
       type: 'SubMessage',
-      list: true,
       resolve(_, args, ctx) {
         return ctx.prisma.subMessage.findMany()
-        //return [{id: 1, username: 'Jack'}]
+        //return ctx.prisma.subMessage.findMany({
+        //  where: { id: 1 },
+        //})
       },
     })
   },

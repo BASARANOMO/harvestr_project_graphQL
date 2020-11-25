@@ -1,4 +1,4 @@
-import { objectType, extendType } from '@nexus/schema'
+import { objectType, extendType, stringArg } from '@nexus/schema'
 
 export const Person = objectType({
   name: 'Person',
@@ -21,12 +21,18 @@ export const Person = objectType({
 export const PersonQuery = extendType({
   type: 'Query',
   definition(t) {
-    t.field('persons', {
+    t.list.field('persons', {
+      // Call persons as a function, with id as input
+      // Le passer dans le findMany pour filtrer
+      args: {
+        id: stringArg(),
+      },
       type: 'Person',
-      list: true,
       resolve(_, args, ctx) {
         return ctx.prisma.person.findMany()
-        //return [{id: 1, username: 'Jack'}]
+        //return ctx.prisma.person.findMany({
+        //  where: { id: 1 },
+        //})
       },
     })
   },

@@ -1,4 +1,4 @@
-import { objectType, extendType } from '@nexus/schema'
+import { objectType, extendType, stringArg } from '@nexus/schema'
 
 export const Chunk = objectType({
   name: 'Chunk',
@@ -17,12 +17,16 @@ export const Chunk = objectType({
 export const ChunckQuery = extendType({
   type: 'Query',
   definition(t) {
-    t.field('chunks', {
+    t.list.field('chunks', {
+      // Call chunk as a function, with id as input
+      // Le passer dans le findMany pour filtrer
+      args: {
+        id: stringArg(),
+      },
       type: 'Chunk',
-      list: true,
       resolve(_, args, ctx) {
         return ctx.prisma.chunk.findMany()
-        //return [{id: 1, username: 'Jack'}]
+        //return ctx.prisma.chunk.findMany({where: { id: 1 },})
       },
     })
   },
