@@ -1,19 +1,46 @@
-import { PrismaClient } from '@prisma/client'
+import { prisma } from './context'
 
-const prisma = new PrismaClient()
+const NB_PROJECTS = 10;
 
 async function main() {
-  /*
-  await prisma.project.create({
-    data: {
-      name: "Harvestr"
-    }
-  })
-  */
-  // ... you will write your Prisma Client queries here
-  const allUsers = await prisma.project.findMany()
-  console.log(allUsers)
+
+  for (let i = 1; i <= NB_PROJECTS; i++) {
+
+    const project = await prisma.project.create({
+      data: {
+        name: 'Project ' + i,
+      },
+    })
+
+    const account = await prisma.account.create({
+      data: {
+        username: 'Username ' + i,
+        hashedPassword: 'pw ' + i,
+        project: {
+          connect: { id: i },
+        },
+        person: {
+          create: {
+            name: 'Name ' + i,
+            email: 'email ' + i,
+            organization: {
+              create: {
+                name: 'Organization ' + i,
+                project: {
+                  connect: { id: i },
+                },
+              }
+            },
+            project: {
+              connect: { id: i },
+            },
+          },
+        },
+      },
+    })
+  }
 }
+
 
 main()
   .catch((e) => {
