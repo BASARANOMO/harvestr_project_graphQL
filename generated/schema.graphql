@@ -61,6 +61,7 @@ type ContributorAttribute {
   name: String!
   project: Project!
   projectId: Int!
+  type: contributor_type
 }
 
 type ContributorAttributeValue {
@@ -160,16 +161,16 @@ type Project {
 
 type Query {
   accounts(id: String): [Account]
-  chunks: [Chunk]
-  contributor_attribute_value: [ContributorAttributeValue]
-  contributor_attributes: [ContributorAttribute]
-  discovery: [Discovery]
-  message: [Message]
-  organizations: [Organization]
-  persons: [Person]
-  projects: [Project]
-  sub_messages: [SubMessage]
-  text_selection: [TextSelection]
+  chunks(id: String): [Chunk]
+  contributor_attribute_value(id: String): [ContributorAttributeValue]
+  contributor_attributes(id: String): [ContributorAttribute]
+  discovery(id: String): [Discovery]
+  message(id: String): [Message]
+  organizations(id: String): [Organization]
+  persons(id: String): [Person]
+  projects(id: String): [Project]
+  sub_messages(id: String): [SubMessage]
+  text_selection(id: String): [TextSelection]
 }
 
 type SubMessage {
