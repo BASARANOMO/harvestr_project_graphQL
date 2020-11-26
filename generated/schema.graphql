@@ -128,8 +128,7 @@ input MessageWhereUniqueInput {
 }
 
 type Mutation {
-  addAccount(hashedPassword: String, id: String, person: String, project: String, username: String): Account
-  updateAccount(hashedPassword: String, id: String, person: String, project: String, type: String, username: String): Account
+  addAccount(hashedPassword: String!, username: String!): Account
 }
 
 type Organization {
