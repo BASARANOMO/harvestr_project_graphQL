@@ -2,7 +2,7 @@
 
 schema.sql: create tables
 
-schemaDrop.sql: drop all tables in database
+schemaDrop.sql: drop all tables in database (destroy database structure)
 
 schemaTrunc.sql: clean data in all tables but keep their structure
 
