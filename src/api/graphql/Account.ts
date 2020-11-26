@@ -1,4 +1,5 @@
 import { objectType, extendType, enumType, stringArg } from '@nexus/schema'
+import { receiveMessageOnPort } from 'worker_threads'
 
 export const ACCOUNT_TYPE = enumType({
   name: 'account_type',
@@ -32,6 +33,72 @@ export const AccountQuery = extendType({
         return ctx.prisma.account.findMany()
         //return ctx.prisma.account.findMany({where: { id: 1 },})
         //return [{id: 1, username: 'Jack'}]
+      },
+    })
+  },
+})
+
+//https://nexusjs.org/docs/getting-started/tutorial/chapter-adding-mutations-to-your-api
+// Creates new account
+export const addAccount = extendType({
+  type: 'Mutation',
+  definition(t) {
+    t.field('addAccount', {
+      type: Account,
+      //required: true,
+      args: {
+        //id: nonNull(stringArg()),
+        id: stringArg(),
+        username: stringArg(),
+        hashedPassword: stringArg(),
+        //Not sur of these : stringArg ? or project type ?
+        project: stringArg(),
+        person: stringArg(),
+        //type: stringArg()
+      },
+      resolve(_, args, ctx) {
+        const newAccount = {
+          id: args.id,
+          username: args.username,
+          hashedPassword: args.hashedPassword,
+          project: args.project,
+          person: args.person,
+        }
+        ctx.prisma.account.create({ data: newAccount })
+        return newAccount
+      },
+    })
+  },
+})
+
+//https://nexusjs.org/docs/getting-started/tutorial/chapter-adding-mutations-to-your-api
+// Updates account
+export const updateAccount = extendType({
+  type: 'Mutation',
+  definition(t) {
+    t.field('updateAccount', {
+      type: Account,
+      args: {
+        //id: nonNull(stringArg()),
+        id: stringArg(),
+        username: stringArg(),
+        hashedPassword: stringArg(),
+        //Not sur of these : stringArg ? or project type ?
+        project: stringArg(),
+        person: stringArg(),
+        type: stringArg()
+      },
+      resolve(_root, args, ctx) {
+        const updatedAccount = {
+          id: args.id,
+          username: args.username,
+          hashedPassword: args.hashedPassword,
+          project: args.project,
+          person: args.person,
+        }
+        // Need to filter for account which is to be updated : how can we make this an input ?
+        ctx.prisma.account.update({ data: updatedAccount, where: { id: 1 } })
+        return updatedAccount
       },
     })
   },
