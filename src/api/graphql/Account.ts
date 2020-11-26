@@ -1,6 +1,7 @@
 import { objectType, extendType, enumType, stringArg } from '@nexus/schema'
 import { receiveMessageOnPort } from 'worker_threads'
 import { Person } from './Person'
+import { Project } from './Project'
 
 export const ACCOUNT_TYPE = enumType({
   name: 'account_type',
@@ -60,8 +61,10 @@ export const addAccount = extendType({
           username: args.username,
           hashedPassword: args.hashedPassword,
           //type: args.type
+          person: Person.value,
+          project: Project.value
         }
-        ctx.prisma.account.create({ inlude:{Person} , data:newAccount, })
+        ctx.prisma.account.create({data:newAccount, })
         return newAccount
       },
     })
