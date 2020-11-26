@@ -1,6 +1,7 @@
 import { prisma } from './context'
 
-const NB_PROJECTS = 10;
+const NB_PROJECTS = 3;
+const NB_ACCOUNTS = 10000;
 
 async function main() {
 
@@ -12,32 +13,35 @@ async function main() {
       },
     })
 
-    const account = await prisma.account.create({
-      data: {
-        username: 'Username ' + i,
-        hashedPassword: 'pw ' + i,
-        project: {
-          connect: { id: i },
-        },
-        person: {
-          create: {
-            name: 'Name ' + i,
-            email: 'email ' + i,
-            organization: {
-              create: {
-                name: 'Organization ' + i,
-                project: {
-                  connect: { id: i },
-                },
-              }
-            },
-            project: {
-              connect: { id: i },
+    for (let j = 1; j <= NB_ACCOUNTS; j++) {
+      var k = (i-1) * NB_ACCOUNTS + j; 
+      const account = await prisma.account.create({
+        data: {
+          username: 'Username ' + k,
+          hashedPassword: 'pw ' + k,
+          project: {
+            connect: { id: i },
+          },
+          person: {
+            create: {
+              name: 'Name ' + k,
+              email: 'email ' + k,
+              organization: {
+                create: {
+                  name: 'Organization ' + k,
+                  project: {
+                    connect: { id: i },
+                  },
+                }
+              },
+              project: {
+                connect: { id: i },
+              },
             },
           },
         },
-      },
-    })
+      })
+    }
   }
 }
 
