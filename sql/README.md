@@ -14,4 +14,5 @@ $ \i sql/scriptname.sql
 ```
 
 // dbname: harvestrdb
+
 // username: postgres
