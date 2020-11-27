@@ -51,20 +51,18 @@ export const addAccount = extendType({
         username: stringArg({required: true,}),
         hashedPassword: stringArg({required: true,}),
         //Not sur of these : stringArg ? or project type ?
-        //project: stringArg(),
-        //person: 
         //type: stringArg(),
       },
       resolve(_, args, ctx) {
         const newAccount = {
-          id: 1,
+          id: Account.value.definition.length + 1,
           username: args.username,
           hashedPassword: args.hashedPassword,
           //type: args.type
-          person: Person.value,
-          project: Project.value
+          person: {},
+          project: {},
         }
-        ctx.prisma.account.create({data:newAccount, })
+        ctx.prisma.account.create({data:newAccount})
         return newAccount
       },
     })
