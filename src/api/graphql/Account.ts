@@ -48,8 +48,8 @@ export const addAccount = extendType({
     t.field('addAccount', {
       type: Account,
       args: {
-        username: stringArg({required: true,}),
-        hashedPassword: stringArg({required: true,}),
+        username: stringArg({ required: true }),
+        hashedPassword: stringArg({ required: true }),
         //Not sur of these : stringArg ? or project type ?
         //type: stringArg(),
       },
@@ -62,7 +62,7 @@ export const addAccount = extendType({
           person: {},
           project: {},
         }
-        ctx.prisma.account.create({data:newAccount})
+        ctx.prisma.account.create({ data: newAccount })
         return newAccount
       },
     })
