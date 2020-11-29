@@ -127,6 +127,10 @@ input MessageWhereUniqueInput {
   id: Int
 }
 
+type Mutation {
+  addAccount(hashedPassword: String!, username: String!): Account
+}
+
 type Organization {
   contributorAttributeValues(after: ContributorAttributeValueWhereUniqueInput, before: ContributorAttributeValueWhereUniqueInput, first: Int, last: Int): [ContributorAttributeValue!]!
   id: Int!

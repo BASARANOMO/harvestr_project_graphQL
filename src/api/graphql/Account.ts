@@ -1,4 +1,7 @@
 import { objectType, extendType, enumType, stringArg } from '@nexus/schema'
+import { receiveMessageOnPort } from 'worker_threads'
+import { Person } from './Person'
+import { Project } from './Project'
 
 export const ACCOUNT_TYPE = enumType({
   name: 'account_type',
@@ -32,6 +35,35 @@ export const AccountQuery = extendType({
         return ctx.prisma.account.findMany()
         //return ctx.prisma.account.findMany({where: { id: 1 },})
         //return [{id: 1, username: 'Jack'}]
+      },
+    })
+  },
+})
+
+//https://nexusjs.org/docs/getting-started/tutorial/chapter-adding-mutations-to-your-api
+// Creates new account
+export const addAccount = extendType({
+  type: 'Mutation',
+  definition(t) {
+    t.field('addAccount', {
+      type: Account,
+      args: {
+        username: stringArg({required: true,}),
+        hashedPassword: stringArg({required: true,}),
+        //Not sur of these : stringArg ? or project type ?
+        //type: stringArg(),
+      },
+      resolve(_, args, ctx) {
+        const newAccount = {
+          id: Account.value.definition.length + 1,
+          username: args.username,
+          hashedPassword: args.hashedPassword,
+          //type: args.type
+          person: {},
+          project: {},
+        }
+        ctx.prisma.account.create({data:newAccount})
+        return newAccount
       },
     })
   },
