@@ -34,6 +34,10 @@ export const ProjectQuery = extendType({
   },
 })
 
+/*
+* cascade delete not supported
+* first delete referencing row then delete referenced row
+*/
 export const deleteProject = extendType({
   type: 'Mutation',
   definition(t) {
