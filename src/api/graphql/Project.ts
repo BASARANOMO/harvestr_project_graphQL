@@ -1,4 +1,4 @@
-import { objectType, extendType, stringArg } from '@nexus/schema'
+import { objectType, extendType, stringArg, intArg } from '@nexus/schema'
 
 export const Project = objectType({
   name: 'Project',
@@ -32,6 +32,24 @@ export const ProjectQuery = extendType({
       },
     })
   },
+})
+
+export const deleteProject = extendType({
+  type: 'Mutation',
+  definition(t) {
+    t.field('deleteProject', {
+      type: 'Project',
+      args: {
+        id: intArg({ required: true })
+      },
+      resolve(_, args, ctx) {
+        return ctx.prisma.project.delete({
+          where: {id: args.id}
+        })
+      }
+    })
+    
+  }
 })
 
 export const createProject = extendType({

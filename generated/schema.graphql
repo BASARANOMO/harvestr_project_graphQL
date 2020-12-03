@@ -454,9 +454,10 @@ input MessageWhereUniqueInput {
 }
 
 type Mutation {
-  addAccount(hashedPassword: String!, id: ID, personId: Int!, projectId: Int!, username: String!): Account
+  addAccount(hashedPassword: String!, personId: Int!, projectId: Int!, username: String!): Account
   createPerson(data: PersonCreateInput!): Person!
   createProject(data: ProjectCreateInput!): Project!
+  deleteProject(id: Int!): Project
 }
 
 type Organization {

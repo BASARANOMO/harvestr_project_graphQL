@@ -51,18 +51,17 @@ export const addAccount = extendType({
     t.field('addAccount', {
       type: 'Account',
       args: {
-        id: idArg(),
         username: stringArg({ required: true }),
         hashedPassword: stringArg({ required: true }),
         projectId: intArg({ nullable: false }),
         personId: intArg({ nullable: false })
       },
-      resolve(_, {username, hashedPassword, projectId, personId}, ctx) {
+      resolve(_, args, ctx) {
         return ctx.prisma.account.create({ data: {
-          username, 
-          hashedPassword, 
-          person: { connect: { id: personId } },
-          project: { connect: { id: projectId } }
+          username: args.username, 
+          hashedPassword: args.hashedPassword, 
+          person: { connect: { id: args.personId } },
+          project: { connect: { id: args.projectId } }
         } 
         })
       },
