@@ -48,7 +48,7 @@ export const addAccount = extendType({
     //t.crud.createOneAccount()
 
     t.field('addAccount', {
-      type: Account,
+      type: 'Account',
       args: {
         id: idArg(),
         username: stringArg({ required: true }),
