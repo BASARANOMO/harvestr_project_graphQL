@@ -48,6 +48,37 @@ export const AccountQuery = extendType({
   },
 })
 
+export const addAccountThenConnect = extendType({
+  type: 'Mutation',
+  definition(t) {
+    t.field('addAccountThenConnect', {
+      type: 'Account',
+      args: {
+        username: stringArg({ required: true }),
+        hashedPassword: stringArg({ required: true }),
+        projectId: intArg({ nullable: false }),
+        personId: intArg({ nullable: false }),
+      },
+
+      resolve(_, args, ctx) {
+        return ctx.prisma.account.create({
+          data: {
+            username: args.username,
+            hashedPassword: args.hashedPassword,
+            person: {
+              connect: { id: args.personId }
+            },
+            project: {
+              connect: { id: args.projectId }
+            },
+          },
+        })
+      },
+    })
+  },
+})
+
+
 //https://nexusjs.org/docs/getting-started/tutorial/chapter-adding-mutations-to-your-api
 // Creates new account
 export const addAccount = extendType({
