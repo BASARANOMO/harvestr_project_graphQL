@@ -1,4 +1,4 @@
-import { objectType, extendType, enumType, stringArg } from '@nexus/schema'
+import { objectType, extendType, enumType, stringArg, idArg } from '@nexus/schema'
 import { receiveMessageOnPort } from 'worker_threads'
 import { Person } from './Person'
 import { Project } from './Project'
@@ -45,25 +45,17 @@ export const AccountQuery = extendType({
 export const addAccount = extendType({
   type: 'Mutation',
   definition(t) {
+    //t.crud.createOneAccount()
+
     t.field('addAccount', {
       type: Account,
       args: {
+        id: idArg(),
         username: stringArg({ required: true }),
         hashedPassword: stringArg({ required: true }),
-        //Not sur of these : stringArg ? or project type ?
-        //type: stringArg(),
       },
-      resolve(_, args, ctx) {
-        const newAccount = {
-          id: Account.value.definition.length + 1,
-          username: args.username,
-          hashedPassword: args.hashedPassword,
-          //type: args.type
-          person: {},
-          project: {},
-        }
-        ctx.prisma.account.create({ data: newAccount })
-        return newAccount
+      resolve(_, {username, hashedPassword}, ctx) {
+        return ctx.prisma.account.create({ data: {username, hashedPassword, person:{}, project:{}} })
       },
     })
   },
