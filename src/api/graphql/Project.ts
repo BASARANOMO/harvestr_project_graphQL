@@ -19,16 +19,12 @@ export const ProjectQuery = extendType({
   type: 'Query',
   definition(t) {
     t.list.field('projects', {
-      // Call projects as a function, with id as input
-      // Le passer dans le findMany pour filtrer
       args: {
         id: stringArg(),
       },
       type: 'Project',
       resolve(_, args, ctx) {
         return ctx.prisma.project.findMany()
-        //return ctx.prisma.project.findMany({where: { id: 1 },})
-        //return [{id: 1, username: 'Jack'}]
       },
     })
   },

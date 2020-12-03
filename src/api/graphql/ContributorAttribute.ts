@@ -37,17 +37,12 @@ export const ContributorAttributeQuery = extendType({
   type: 'Query',
   definition(t) {
     t.list.field('contributor_attributes', {
-      // Call contributor_attributes as a function, with id as input
-      // Le passer dans le findMany pour filtrer
       args: {
         id: stringArg(),
       },
       type: 'ContributorAttribute',
       resolve(_, args, ctx) {
         return ctx.prisma.contributorAttribute.findMany()
-        //return ctx.prisma.contributorAttribute.findMany({
-        //  where: { id: 1 },
-        //})
       },
     })
   },

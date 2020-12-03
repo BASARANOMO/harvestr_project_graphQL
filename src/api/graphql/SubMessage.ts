@@ -16,17 +16,12 @@ export const SubMessageQuery = extendType({
   type: 'Query',
   definition(t) {
     t.list.field('sub_messages', {
-      // Call sub_messages as a function, with id as input
-      // Le passer dans le findMany pour filtrer
       args: {
         id: stringArg(),
       },
       type: 'SubMessage',
       resolve(_, args, ctx) {
         return ctx.prisma.subMessage.findMany()
-        //return ctx.prisma.subMessage.findMany({
-        //  where: { id: 1 },
-        //})
       },
     })
   },

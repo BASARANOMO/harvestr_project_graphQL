@@ -18,15 +18,12 @@ export const ChunckQuery = extendType({
   type: 'Query',
   definition(t) {
     t.list.field('chunks', {
-      // Call chunk as a function, with id as input
-      // Le passer dans le findMany pour filtrer
       args: {
         id: stringArg(),
       },
       type: 'Chunk',
       resolve(_, args, ctx) {
         return ctx.prisma.chunk.findMany()
-        //return ctx.prisma.chunk.findMany({where: { id: 1 },})
       },
     })
   },

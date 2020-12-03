@@ -16,17 +16,12 @@ export const DiscoveryQuery = extendType({
   type: 'Query',
   definition(t) {
     t.list.field('discovery', {
-      // Call discovery as a function, with id as input
-      // Le passer dans le findMany pour filtrer
       args: {
         id: stringArg(),
       },
       type: 'Discovery',
       resolve(_, args, ctx) {
         return ctx.prisma.discovery.findMany()
-        //return ctx.prisma.discovery.findMany({
-        //  where: { id: 1 },
-        //})
       },
     })
   },
