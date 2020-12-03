@@ -68,44 +68,35 @@ export const addAccount = extendType({
 
       resolve(
         _,
-        {
-          username,
-          hashedPassword,
-          projectId,
-          personId,
-          projectName,
-          personName,
-          email,
-          organizationId,
-        },
+        args,
         ctx,
       ) {
         return ctx.prisma.account.create({
           data: {
-            username,
-            hashedPassword,
+            username: args.username,
+            hashedPassword: args.hashedPassword,
             person: {
               connectOrCreate: {
                 where: {
-                  id: personId,
+                  id: args.personId,
                 },
                 create: {
-                  name: personName,
-                  email: email,
+                  name: args.personName,
+                  email: args.email,
                   organization: {
                     connectOrCreate: {
                       where: {
-                        id: organizationId,
+                        id: args.organizationId,
                       },
                       create: {
-                        name: projectName,
+                        name: args.projectName,
                         project: {
                           connectOrCreate: {
                             where: {
-                              id: projectId,
+                              id: args.projectId,
                             },
                             create: {
-                              name: projectName,
+                              name: args.projectName,
                             },
                           },
                         },
@@ -115,10 +106,10 @@ export const addAccount = extendType({
                   project: {
                     connectOrCreate: {
                       where: {
-                        id: projectId,
+                        id: args.projectId,
                       },
                       create: {
-                        name: projectName,
+                        name: args.projectName,
                       },
                     },
                   },
@@ -128,10 +119,10 @@ export const addAccount = extendType({
             project: {
               connectOrCreate: {
                 where: {
-                  id: projectId,
+                  id: args.projectId,
                 },
                 create: {
-                  name: projectName,
+                  name: args.projectName,
                 },
               },
             },
