@@ -459,6 +459,7 @@ type Mutation {
   createPerson(data: PersonCreateInput!): Person!
   createProject(data: ProjectCreateInput!): Project!
   deleteProject(id: Int!): Project
+  updateAccount(hashedPassword: String!, id: Int!, username: String!): Account
 }
 
 type Organization {

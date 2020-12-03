@@ -159,3 +159,27 @@ export const addAccount = extendType({
     })
   },
 })
+
+export const updateAccount = extendType({
+  type: 'Mutation',
+  definition(t) {
+    t.field('updateAccount', {
+      type: 'Account',
+      nullable: true,
+      args: {
+        id: intArg({required: true}),
+        username: stringArg({ nullable: false }),
+        hashedPassword: stringArg({ nullable: false }),
+      },
+      resolve(_, args, ctx) {
+        return ctx.prisma.account.update({
+          where:{id: args.id},
+          data: {
+            username: args.username,
+            hashedPassword: args.hashedPassword
+          },
+        })
+      },
+    })
+  },
+})
