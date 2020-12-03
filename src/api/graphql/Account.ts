@@ -1,4 +1,11 @@
-import { objectType, extendType, enumType, stringArg, idArg, intArg } from '@nexus/schema'
+import {
+  objectType,
+  extendType,
+  enumType,
+  stringArg,
+  idArg,
+  intArg,
+} from '@nexus/schema'
 import { PersonDistinctFieldEnum } from '@prisma/client'
 import { receiveMessageOnPort } from 'worker_threads'
 import { Person } from './Person'
@@ -46,8 +53,6 @@ export const AccountQuery = extendType({
 export const addAccount = extendType({
   type: 'Mutation',
   definition(t) {
-    //t.crud.createOneAccount()
-
     t.field('addAccount', {
       type: 'Account',
       args: {
@@ -55,15 +60,82 @@ export const addAccount = extendType({
         username: stringArg({ required: true }),
         hashedPassword: stringArg({ required: true }),
         projectId: intArg({ nullable: false }),
-        personId: intArg({ nullable: false })
+        organizationId: intArg({ nullable: false }),
+        personId: intArg({ nullable: false }),
+        personName: stringArg({ nullable: false }),
+        projectName: stringArg({ nullable: false }),
+        email: stringArg({ nullable: false }),
       },
-      resolve(_, {username, hashedPassword, projectId, personId}, ctx) {
-        return ctx.prisma.account.create({ data: {
-          username, 
-          hashedPassword, 
-          person: { connect: { id: personId } },
-          project: { connect: { id: projectId } }
-        } 
+      resolve(
+        _,
+        {
+          username,
+          hashedPassword,
+          projectId,
+          personId,
+          projectName,
+          personName,
+          email,
+          organizationId,
+        },
+        ctx,
+      ) {
+        return ctx.prisma.account.create({
+          data: {
+            username,
+            hashedPassword,
+            person: {
+              connectOrCreate: {
+                where: {
+                  id: personId,
+                },
+                create: {
+                  name: personName,
+                  email: email,
+                  organization: {
+                    connectOrCreate: {
+                      where: {
+                        id: organizationId,
+                      },
+                      create: {
+                        name: projectName,
+                        project: {
+                          connectOrCreate: {
+                            where: {
+                              id: projectId,
+                            },
+                            create: {
+                              name: projectName,
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                  project: {
+                    connectOrCreate: {
+                      where: {
+                        id: projectId,
+                      },
+                      create: {
+                        name: projectName,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            project: {
+              connectOrCreate: {
+                where: {
+                  id: projectId,
+                },
+                create: {
+                  name: projectName,
+                },
+              },
+            },
+          },
         })
       },
     })

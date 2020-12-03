@@ -42,7 +42,7 @@ export const createPerson = extendType({
   type: 'Mutation',
   definition(t) {
     t.crud.createOnePerson({
-      alias: 'createPerson'
+      alias: 'createPerson',
     })
-  }
+  },
 })
