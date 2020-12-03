@@ -33,3 +33,12 @@ export const ProjectQuery = extendType({
     })
   },
 })
+
+export const createProject = extendType({
+  type: 'Mutation',
+  definition(t) {
+    t.crud.createOneProject({
+      alias: 'createProject'
+    })
+  }
+})

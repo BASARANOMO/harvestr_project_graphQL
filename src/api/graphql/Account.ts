@@ -1,4 +1,5 @@
-import { objectType, extendType, enumType, stringArg, idArg } from '@nexus/schema'
+import { objectType, extendType, enumType, stringArg, idArg, intArg } from '@nexus/schema'
+import { PersonDistinctFieldEnum } from '@prisma/client'
 import { receiveMessageOnPort } from 'worker_threads'
 import { Person } from './Person'
 import { Project } from './Project'
@@ -53,9 +54,17 @@ export const addAccount = extendType({
         id: idArg(),
         username: stringArg({ required: true }),
         hashedPassword: stringArg({ required: true }),
+        projectId: intArg({ nullable: false }),
+        personId: intArg({ nullable: false })
       },
-      resolve(_, {username, hashedPassword}, ctx) {
-        return ctx.prisma.account.create({ data: {username, hashedPassword, person:{}, project:{}} })
+      resolve(_, {username, hashedPassword, projectId, personId}, ctx) {
+        return ctx.prisma.account.create({ data: {
+          username, 
+          hashedPassword, 
+          person: { connect: { id: personId } },
+          project: { connect: { id: projectId } }
+        } 
+        })
       },
     })
   },

@@ -17,6 +17,48 @@ enum account_type {
   VIEWER
 }
 
+enum ACCOUNT_TYPE {
+  ADMIN
+  MAIN_ADMIN
+  VIEWER
+}
+
+input AccountCreateManyWithoutPersonInput {
+  connect: [AccountWhereUniqueInput!]
+  connectOrCreate: [AccountCreateOrConnectWithoutpersonInput!]
+  create: [AccountCreateWithoutPersonInput!]
+}
+
+input AccountCreateManyWithoutProjectInput {
+  connect: [AccountWhereUniqueInput!]
+  connectOrCreate: [AccountCreateOrConnectWithoutprojectInput!]
+  create: [AccountCreateWithoutProjectInput!]
+}
+
+input AccountCreateOrConnectWithoutpersonInput {
+  create: AccountCreateWithoutPersonInput!
+  where: AccountWhereUniqueInput!
+}
+
+input AccountCreateOrConnectWithoutprojectInput {
+  create: AccountCreateWithoutProjectInput!
+  where: AccountWhereUniqueInput!
+}
+
+input AccountCreateWithoutPersonInput {
+  hashedPassword: String!
+  project: ProjectCreateOneWithoutAccountsInput!
+  type: ACCOUNT_TYPE
+  username: String!
+}
+
+input AccountCreateWithoutProjectInput {
+  hashedPassword: String!
+  person: PersonCreateOneWithoutAccountsInput!
+  type: ACCOUNT_TYPE
+  username: String!
+}
+
 input AccountWhereUniqueInput {
   id: Int
 }
@@ -26,6 +68,57 @@ type Chunk {
   id: Int!
   messageId: Int!
   projectId: Int!
+}
+
+input ChunkCreateManyWithoutDiscoveryInput {
+  connect: [ChunkWhereUniqueInput!]
+  connectOrCreate: [ChunkCreateOrConnectWithoutdiscoveryInput!]
+  create: [ChunkCreateWithoutDiscoveryInput!]
+}
+
+input ChunkCreateManyWithoutMessageInput {
+  connect: [ChunkWhereUniqueInput!]
+  connectOrCreate: [ChunkCreateOrConnectWithoutmessageInput!]
+  create: [ChunkCreateWithoutMessageInput!]
+}
+
+input ChunkCreateManyWithoutProjectInput {
+  connect: [ChunkWhereUniqueInput!]
+  connectOrCreate: [ChunkCreateOrConnectWithoutprojectInput!]
+  create: [ChunkCreateWithoutProjectInput!]
+}
+
+input ChunkCreateOrConnectWithoutdiscoveryInput {
+  create: ChunkCreateWithoutDiscoveryInput!
+  where: ChunkWhereUniqueInput!
+}
+
+input ChunkCreateOrConnectWithoutmessageInput {
+  create: ChunkCreateWithoutMessageInput!
+  where: ChunkWhereUniqueInput!
+}
+
+input ChunkCreateOrConnectWithoutprojectInput {
+  create: ChunkCreateWithoutProjectInput!
+  where: ChunkWhereUniqueInput!
+}
+
+input ChunkCreateWithoutDiscoveryInput {
+  message: MessageCreateOneWithoutChunksInput!
+  project: ProjectCreateOneWithoutChunksInput!
+  textSelections: TextSelectionCreateManyWithoutChunkInput
+}
+
+input ChunkCreateWithoutMessageInput {
+  discovery: DiscoveryCreateOneWithoutChunksInput!
+  project: ProjectCreateOneWithoutChunksInput!
+  textSelections: TextSelectionCreateManyWithoutChunkInput
+}
+
+input ChunkCreateWithoutProjectInput {
+  discovery: DiscoveryCreateOneWithoutChunksInput!
+  message: MessageCreateOneWithoutChunksInput!
+  textSelections: TextSelectionCreateManyWithoutChunkInput
 }
 
 input ChunkWhereUniqueInput {
@@ -64,6 +157,44 @@ type ContributorAttribute {
   type: contributor_type
 }
 
+input ContributorAttributeCreateManyWithoutProjectInput {
+  connect: [ContributorAttributeWhereUniqueInput!]
+  connectOrCreate: [ContributorAttributeCreateOrConnectWithoutprojectInput!]
+  create: [ContributorAttributeCreateWithoutProjectInput!]
+}
+
+input ContributorAttributeCreateOneWithoutContributorAttributeValuesInput {
+  connect: ContributorAttributeWhereUniqueInput
+  connectOrCreate: ContributorAttributeCreateOrConnectWithoutcontributorAttributeValuesInput
+  create: ContributorAttributeCreateWithoutContributorAttributeValuesInput
+}
+
+input ContributorAttributeCreateOrConnectWithoutcontributorAttributeValuesInput {
+  create: ContributorAttributeCreateWithoutContributorAttributeValuesInput!
+  where: ContributorAttributeWhereUniqueInput!
+}
+
+input ContributorAttributeCreateOrConnectWithoutprojectInput {
+  create: ContributorAttributeCreateWithoutProjectInput!
+  where: ContributorAttributeWhereUniqueInput!
+}
+
+input ContributorAttributeCreateWithoutContributorAttributeValuesInput {
+  appliesTo: ENTITY_TYPE
+  id: Int
+  name: String!
+  project: ProjectCreateOneWithoutContributorAttributesInput!
+  type: CONTRIBUTOR_ATTRIBUTE_TYPE!
+}
+
+input ContributorAttributeCreateWithoutProjectInput {
+  appliesTo: ENTITY_TYPE
+  contributorAttributeValues: ContributorAttributeValueCreateManyWithoutContributorAttributeInput
+  id: Int
+  name: String!
+  type: CONTRIBUTOR_ATTRIBUTE_TYPE!
+}
+
 type ContributorAttributeValue {
   contributorAttribute: ContributorAttribute!
   contributorAttributeId: Int!
@@ -77,6 +208,57 @@ input ContributorAttributeValue_contributorAttributeId_personId_o_keyCompoundUni
   contributorAttributeId: Int!
   organizationId: Int!
   personId: Int!
+}
+
+input ContributorAttributeValueCreateManyWithoutContributorAttributeInput {
+  connect: [ContributorAttributeValueWhereUniqueInput!]
+  connectOrCreate: [ContributorAttributeValueCreateOrConnectWithoutcontributorAttributeInput!]
+  create: [ContributorAttributeValueCreateWithoutContributorAttributeInput!]
+}
+
+input ContributorAttributeValueCreateManyWithoutOrganizationInput {
+  connect: [ContributorAttributeValueWhereUniqueInput!]
+  connectOrCreate: [ContributorAttributeValueCreateOrConnectWithoutorganizationInput!]
+  create: [ContributorAttributeValueCreateWithoutOrganizationInput!]
+}
+
+input ContributorAttributeValueCreateManyWithoutPersonInput {
+  connect: [ContributorAttributeValueWhereUniqueInput!]
+  connectOrCreate: [ContributorAttributeValueCreateOrConnectWithoutpersonInput!]
+  create: [ContributorAttributeValueCreateWithoutPersonInput!]
+}
+
+input ContributorAttributeValueCreateOrConnectWithoutcontributorAttributeInput {
+  create: ContributorAttributeValueCreateWithoutContributorAttributeInput!
+  where: ContributorAttributeValueWhereUniqueInput!
+}
+
+input ContributorAttributeValueCreateOrConnectWithoutorganizationInput {
+  create: ContributorAttributeValueCreateWithoutOrganizationInput!
+  where: ContributorAttributeValueWhereUniqueInput!
+}
+
+input ContributorAttributeValueCreateOrConnectWithoutpersonInput {
+  create: ContributorAttributeValueCreateWithoutPersonInput!
+  where: ContributorAttributeValueWhereUniqueInput!
+}
+
+input ContributorAttributeValueCreateWithoutContributorAttributeInput {
+  organization: OrganizationCreateOneWithoutContributorAttributeValuesInput!
+  person: PersonCreateOneWithoutContributorAttributeValuesInput!
+  valuetext: String
+}
+
+input ContributorAttributeValueCreateWithoutOrganizationInput {
+  contributorAttribute: ContributorAttributeCreateOneWithoutContributorAttributeValuesInput!
+  person: PersonCreateOneWithoutContributorAttributeValuesInput!
+  valuetext: String
+}
+
+input ContributorAttributeValueCreateWithoutPersonInput {
+  contributorAttribute: ContributorAttributeCreateOneWithoutContributorAttributeValuesInput!
+  organization: OrganizationCreateOneWithoutContributorAttributeValuesInput!
+  valuetext: String
 }
 
 input ContributorAttributeValueWhereUniqueInput {
@@ -97,11 +279,50 @@ type Discovery {
   title: String!
 }
 
+input DiscoveryCreateManyWithoutProjectInput {
+  connect: [DiscoveryWhereUniqueInput!]
+  connectOrCreate: [DiscoveryCreateOrConnectWithoutprojectInput!]
+  create: [DiscoveryCreateWithoutProjectInput!]
+}
+
+input DiscoveryCreateOneWithoutChunksInput {
+  connect: DiscoveryWhereUniqueInput
+  connectOrCreate: DiscoveryCreateOrConnectWithoutchunksInput
+  create: DiscoveryCreateWithoutChunksInput
+}
+
+input DiscoveryCreateOrConnectWithoutchunksInput {
+  create: DiscoveryCreateWithoutChunksInput!
+  where: DiscoveryWhereUniqueInput!
+}
+
+input DiscoveryCreateOrConnectWithoutprojectInput {
+  create: DiscoveryCreateWithoutProjectInput!
+  where: DiscoveryWhereUniqueInput!
+}
+
+input DiscoveryCreateWithoutChunksInput {
+  description: String
+  project: ProjectCreateOneWithoutDiscoverysInput!
+  title: String!
+}
+
+input DiscoveryCreateWithoutProjectInput {
+  chunks: ChunkCreateManyWithoutDiscoveryInput
+  description: String
+  title: String!
+}
+
 input DiscoveryWhereUniqueInput {
   id: Int
 }
 
 enum entity_type {
+  Organization
+  Person
+}
+
+enum ENTITY_TYPE {
   Organization
   Person
 }
@@ -123,12 +344,119 @@ type Message {
   title: String
 }
 
+input MessageCreateManyWithoutPerson_Message_requesterIdToPersonInput {
+  connect: [MessageWhereUniqueInput!]
+  connectOrCreate: [MessageCreateOrConnectWithoutperson_Message_requesterIdToPersonInput!]
+  create: [MessageCreateWithoutPerson_Message_requesterIdToPersonInput!]
+}
+
+input MessageCreateManyWithoutPerson_Message_submitterIdToPersonInput {
+  connect: [MessageWhereUniqueInput!]
+  connectOrCreate: [MessageCreateOrConnectWithoutperson_Message_submitterIdToPersonInput!]
+  create: [MessageCreateWithoutPerson_Message_submitterIdToPersonInput!]
+}
+
+input MessageCreateManyWithoutProjectInput {
+  connect: [MessageWhereUniqueInput!]
+  connectOrCreate: [MessageCreateOrConnectWithoutprojectInput!]
+  create: [MessageCreateWithoutProjectInput!]
+}
+
+input MessageCreateOneWithoutChunksInput {
+  connect: MessageWhereUniqueInput
+  connectOrCreate: MessageCreateOrConnectWithoutchunksInput
+  create: MessageCreateWithoutChunksInput
+}
+
+input MessageCreateOneWithoutSubMessagesInput {
+  connect: MessageWhereUniqueInput
+  connectOrCreate: MessageCreateOrConnectWithoutsubMessagesInput
+  create: MessageCreateWithoutSubMessagesInput
+}
+
+input MessageCreateOrConnectWithoutchunksInput {
+  create: MessageCreateWithoutChunksInput!
+  where: MessageWhereUniqueInput!
+}
+
+input MessageCreateOrConnectWithoutperson_Message_requesterIdToPersonInput {
+  create: MessageCreateWithoutPerson_Message_requesterIdToPersonInput!
+  where: MessageWhereUniqueInput!
+}
+
+input MessageCreateOrConnectWithoutperson_Message_submitterIdToPersonInput {
+  create: MessageCreateWithoutPerson_Message_submitterIdToPersonInput!
+  where: MessageWhereUniqueInput!
+}
+
+input MessageCreateOrConnectWithoutprojectInput {
+  create: MessageCreateWithoutProjectInput!
+  where: MessageWhereUniqueInput!
+}
+
+input MessageCreateOrConnectWithoutsubMessagesInput {
+  create: MessageCreateWithoutSubMessagesInput!
+  where: MessageWhereUniqueInput!
+}
+
+input MessageCreateWithoutChunksInput {
+  clientId: String
+  content: String
+  person_Message_requesterIdToPerson: PersonCreateOneWithoutMessage_Message_requesterIdToPersonsInput!
+  person_Message_submitterIdToPerson: PersonCreateOneWithoutMessage_Message_submitterIdToPersonsInput!
+  project: ProjectCreateOneWithoutMessagesInput!
+  subMessages: SubMessageCreateManyWithoutMessageInput
+  title: String
+}
+
+input MessageCreateWithoutPerson_Message_requesterIdToPersonInput {
+  chunks: ChunkCreateManyWithoutMessageInput
+  clientId: String
+  content: String
+  person_Message_submitterIdToPerson: PersonCreateOneWithoutMessage_Message_submitterIdToPersonsInput!
+  project: ProjectCreateOneWithoutMessagesInput!
+  subMessages: SubMessageCreateManyWithoutMessageInput
+  title: String
+}
+
+input MessageCreateWithoutPerson_Message_submitterIdToPersonInput {
+  chunks: ChunkCreateManyWithoutMessageInput
+  clientId: String
+  content: String
+  person_Message_requesterIdToPerson: PersonCreateOneWithoutMessage_Message_requesterIdToPersonsInput!
+  project: ProjectCreateOneWithoutMessagesInput!
+  subMessages: SubMessageCreateManyWithoutMessageInput
+  title: String
+}
+
+input MessageCreateWithoutProjectInput {
+  chunks: ChunkCreateManyWithoutMessageInput
+  clientId: String
+  content: String
+  person_Message_requesterIdToPerson: PersonCreateOneWithoutMessage_Message_requesterIdToPersonsInput!
+  person_Message_submitterIdToPerson: PersonCreateOneWithoutMessage_Message_submitterIdToPersonsInput!
+  subMessages: SubMessageCreateManyWithoutMessageInput
+  title: String
+}
+
+input MessageCreateWithoutSubMessagesInput {
+  chunks: ChunkCreateManyWithoutMessageInput
+  clientId: String
+  content: String
+  person_Message_requesterIdToPerson: PersonCreateOneWithoutMessage_Message_requesterIdToPersonsInput!
+  person_Message_submitterIdToPerson: PersonCreateOneWithoutMessage_Message_submitterIdToPersonsInput!
+  project: ProjectCreateOneWithoutMessagesInput!
+  title: String
+}
+
 input MessageWhereUniqueInput {
   id: Int
 }
 
 type Mutation {
-  addAccount(hashedPassword: String!, username: String!): Account
+  addAccount(hashedPassword: String!, id: ID, personId: Int!, projectId: Int!, username: String!): Account
+  createPerson(data: PersonCreateInput!): Person!
+  createProject(data: ProjectCreateInput!): Project!
 }
 
 type Organization {
@@ -137,6 +465,61 @@ type Organization {
   name: String!
   project: Project!
   projectId: Int!
+}
+
+input OrganizationCreateManyWithoutProjectInput {
+  connect: [OrganizationWhereUniqueInput!]
+  connectOrCreate: [OrganizationCreateOrConnectWithoutprojectInput!]
+  create: [OrganizationCreateWithoutProjectInput!]
+}
+
+input OrganizationCreateOneWithoutContributorAttributeValuesInput {
+  connect: OrganizationWhereUniqueInput
+  connectOrCreate: OrganizationCreateOrConnectWithoutcontributorAttributeValuesInput
+  create: OrganizationCreateWithoutContributorAttributeValuesInput
+}
+
+input OrganizationCreateOneWithoutPersonsInput {
+  connect: OrganizationWhereUniqueInput
+  connectOrCreate: OrganizationCreateOrConnectWithoutpersonsInput
+  create: OrganizationCreateWithoutPersonsInput
+}
+
+input OrganizationCreateOrConnectWithoutcontributorAttributeValuesInput {
+  create: OrganizationCreateWithoutContributorAttributeValuesInput!
+  where: OrganizationWhereUniqueInput!
+}
+
+input OrganizationCreateOrConnectWithoutpersonsInput {
+  create: OrganizationCreateWithoutPersonsInput!
+  where: OrganizationWhereUniqueInput!
+}
+
+input OrganizationCreateOrConnectWithoutprojectInput {
+  create: OrganizationCreateWithoutProjectInput!
+  where: OrganizationWhereUniqueInput!
+}
+
+input OrganizationCreateWithoutContributorAttributeValuesInput {
+  name: String!
+  persons: PersonCreateManyWithoutOrganizationInput
+  project: ProjectCreateOneWithoutOrganizationsInput!
+}
+
+input OrganizationCreateWithoutPersonsInput {
+  contributorAttributeValues: ContributorAttributeValueCreateManyWithoutOrganizationInput
+  name: String!
+  project: ProjectCreateOneWithoutOrganizationsInput!
+}
+
+input OrganizationCreateWithoutProjectInput {
+  contributorAttributeValues: ContributorAttributeValueCreateManyWithoutOrganizationInput
+  name: String!
+  persons: PersonCreateManyWithoutOrganizationInput
+}
+
+input OrganizationWhereUniqueInput {
+  id: Int
 }
 
 type Person {
@@ -153,6 +536,176 @@ type Person {
   projectId: Int!
 }
 
+input PersonCreateInput {
+  accounts: AccountCreateManyWithoutPersonInput
+  contributorAttributeValues: ContributorAttributeValueCreateManyWithoutPersonInput
+  email: String!
+  message_Message_requesterIdToPersons: MessageCreateManyWithoutPerson_Message_requesterIdToPersonInput
+  message_Message_submitterIdToPersons: MessageCreateManyWithoutPerson_Message_submitterIdToPersonInput
+  name: String!
+  organization: OrganizationCreateOneWithoutPersonsInput!
+  project: ProjectCreateOneWithoutPersonsInput!
+  subMessages: SubMessageCreateManyWithoutPersonInput
+}
+
+input PersonCreateManyWithoutOrganizationInput {
+  connect: [PersonWhereUniqueInput!]
+  connectOrCreate: [PersonCreateOrConnectWithoutorganizationInput!]
+  create: [PersonCreateWithoutOrganizationInput!]
+}
+
+input PersonCreateManyWithoutProjectInput {
+  connect: [PersonWhereUniqueInput!]
+  connectOrCreate: [PersonCreateOrConnectWithoutprojectInput!]
+  create: [PersonCreateWithoutProjectInput!]
+}
+
+input PersonCreateOneWithoutAccountsInput {
+  connect: PersonWhereUniqueInput
+  connectOrCreate: PersonCreateOrConnectWithoutaccountsInput
+  create: PersonCreateWithoutAccountsInput
+}
+
+input PersonCreateOneWithoutContributorAttributeValuesInput {
+  connect: PersonWhereUniqueInput
+  connectOrCreate: PersonCreateOrConnectWithoutcontributorAttributeValuesInput
+  create: PersonCreateWithoutContributorAttributeValuesInput
+}
+
+input PersonCreateOneWithoutMessage_Message_requesterIdToPersonsInput {
+  connect: PersonWhereUniqueInput
+  connectOrCreate: PersonCreateOrConnectWithoutmessage_Message_requesterIdToPersonsInput
+  create: PersonCreateWithoutMessage_Message_requesterIdToPersonsInput
+}
+
+input PersonCreateOneWithoutMessage_Message_submitterIdToPersonsInput {
+  connect: PersonWhereUniqueInput
+  connectOrCreate: PersonCreateOrConnectWithoutmessage_Message_submitterIdToPersonsInput
+  create: PersonCreateWithoutMessage_Message_submitterIdToPersonsInput
+}
+
+input PersonCreateOneWithoutSubMessagesInput {
+  connect: PersonWhereUniqueInput
+  connectOrCreate: PersonCreateOrConnectWithoutsubMessagesInput
+  create: PersonCreateWithoutSubMessagesInput
+}
+
+input PersonCreateOrConnectWithoutaccountsInput {
+  create: PersonCreateWithoutAccountsInput!
+  where: PersonWhereUniqueInput!
+}
+
+input PersonCreateOrConnectWithoutcontributorAttributeValuesInput {
+  create: PersonCreateWithoutContributorAttributeValuesInput!
+  where: PersonWhereUniqueInput!
+}
+
+input PersonCreateOrConnectWithoutmessage_Message_requesterIdToPersonsInput {
+  create: PersonCreateWithoutMessage_Message_requesterIdToPersonsInput!
+  where: PersonWhereUniqueInput!
+}
+
+input PersonCreateOrConnectWithoutmessage_Message_submitterIdToPersonsInput {
+  create: PersonCreateWithoutMessage_Message_submitterIdToPersonsInput!
+  where: PersonWhereUniqueInput!
+}
+
+input PersonCreateOrConnectWithoutorganizationInput {
+  create: PersonCreateWithoutOrganizationInput!
+  where: PersonWhereUniqueInput!
+}
+
+input PersonCreateOrConnectWithoutprojectInput {
+  create: PersonCreateWithoutProjectInput!
+  where: PersonWhereUniqueInput!
+}
+
+input PersonCreateOrConnectWithoutsubMessagesInput {
+  create: PersonCreateWithoutSubMessagesInput!
+  where: PersonWhereUniqueInput!
+}
+
+input PersonCreateWithoutAccountsInput {
+  contributorAttributeValues: ContributorAttributeValueCreateManyWithoutPersonInput
+  email: String!
+  message_Message_requesterIdToPersons: MessageCreateManyWithoutPerson_Message_requesterIdToPersonInput
+  message_Message_submitterIdToPersons: MessageCreateManyWithoutPerson_Message_submitterIdToPersonInput
+  name: String!
+  organization: OrganizationCreateOneWithoutPersonsInput!
+  project: ProjectCreateOneWithoutPersonsInput!
+  subMessages: SubMessageCreateManyWithoutPersonInput
+}
+
+input PersonCreateWithoutContributorAttributeValuesInput {
+  accounts: AccountCreateManyWithoutPersonInput
+  email: String!
+  message_Message_requesterIdToPersons: MessageCreateManyWithoutPerson_Message_requesterIdToPersonInput
+  message_Message_submitterIdToPersons: MessageCreateManyWithoutPerson_Message_submitterIdToPersonInput
+  name: String!
+  organization: OrganizationCreateOneWithoutPersonsInput!
+  project: ProjectCreateOneWithoutPersonsInput!
+  subMessages: SubMessageCreateManyWithoutPersonInput
+}
+
+input PersonCreateWithoutMessage_Message_requesterIdToPersonsInput {
+  accounts: AccountCreateManyWithoutPersonInput
+  contributorAttributeValues: ContributorAttributeValueCreateManyWithoutPersonInput
+  email: String!
+  message_Message_submitterIdToPersons: MessageCreateManyWithoutPerson_Message_submitterIdToPersonInput
+  name: String!
+  organization: OrganizationCreateOneWithoutPersonsInput!
+  project: ProjectCreateOneWithoutPersonsInput!
+  subMessages: SubMessageCreateManyWithoutPersonInput
+}
+
+input PersonCreateWithoutMessage_Message_submitterIdToPersonsInput {
+  accounts: AccountCreateManyWithoutPersonInput
+  contributorAttributeValues: ContributorAttributeValueCreateManyWithoutPersonInput
+  email: String!
+  message_Message_requesterIdToPersons: MessageCreateManyWithoutPerson_Message_requesterIdToPersonInput
+  name: String!
+  organization: OrganizationCreateOneWithoutPersonsInput!
+  project: ProjectCreateOneWithoutPersonsInput!
+  subMessages: SubMessageCreateManyWithoutPersonInput
+}
+
+input PersonCreateWithoutOrganizationInput {
+  accounts: AccountCreateManyWithoutPersonInput
+  contributorAttributeValues: ContributorAttributeValueCreateManyWithoutPersonInput
+  email: String!
+  message_Message_requesterIdToPersons: MessageCreateManyWithoutPerson_Message_requesterIdToPersonInput
+  message_Message_submitterIdToPersons: MessageCreateManyWithoutPerson_Message_submitterIdToPersonInput
+  name: String!
+  project: ProjectCreateOneWithoutPersonsInput!
+  subMessages: SubMessageCreateManyWithoutPersonInput
+}
+
+input PersonCreateWithoutProjectInput {
+  accounts: AccountCreateManyWithoutPersonInput
+  contributorAttributeValues: ContributorAttributeValueCreateManyWithoutPersonInput
+  email: String!
+  message_Message_requesterIdToPersons: MessageCreateManyWithoutPerson_Message_requesterIdToPersonInput
+  message_Message_submitterIdToPersons: MessageCreateManyWithoutPerson_Message_submitterIdToPersonInput
+  name: String!
+  organization: OrganizationCreateOneWithoutPersonsInput!
+  subMessages: SubMessageCreateManyWithoutPersonInput
+}
+
+input PersonCreateWithoutSubMessagesInput {
+  accounts: AccountCreateManyWithoutPersonInput
+  contributorAttributeValues: ContributorAttributeValueCreateManyWithoutPersonInput
+  email: String!
+  message_Message_requesterIdToPersons: MessageCreateManyWithoutPerson_Message_requesterIdToPersonInput
+  message_Message_submitterIdToPersons: MessageCreateManyWithoutPerson_Message_submitterIdToPersonInput
+  name: String!
+  organization: OrganizationCreateOneWithoutPersonsInput!
+  project: ProjectCreateOneWithoutPersonsInput!
+}
+
+input PersonWhereUniqueInput {
+  id: Int
+}
+
 type Project {
   accounts(after: AccountWhereUniqueInput, before: AccountWhereUniqueInput, first: Int, last: Int): [Account!]!
   chunks(after: ChunkWhereUniqueInput, before: ChunkWhereUniqueInput, first: Int, last: Int): [Chunk!]!
@@ -161,6 +714,168 @@ type Project {
   id: Int!
   messages(after: MessageWhereUniqueInput, before: MessageWhereUniqueInput, first: Int, last: Int): [Message!]!
   name: String!
+}
+
+input ProjectCreateInput {
+  accounts: AccountCreateManyWithoutProjectInput
+  chunks: ChunkCreateManyWithoutProjectInput
+  contributorAttributes: ContributorAttributeCreateManyWithoutProjectInput
+  discoverys: DiscoveryCreateManyWithoutProjectInput
+  messages: MessageCreateManyWithoutProjectInput
+  name: String!
+  organizations: OrganizationCreateManyWithoutProjectInput
+  persons: PersonCreateManyWithoutProjectInput
+}
+
+input ProjectCreateOneWithoutAccountsInput {
+  connect: ProjectWhereUniqueInput
+  connectOrCreate: ProjectCreateOrConnectWithoutaccountsInput
+  create: ProjectCreateWithoutAccountsInput
+}
+
+input ProjectCreateOneWithoutChunksInput {
+  connect: ProjectWhereUniqueInput
+  connectOrCreate: ProjectCreateOrConnectWithoutchunksInput
+  create: ProjectCreateWithoutChunksInput
+}
+
+input ProjectCreateOneWithoutContributorAttributesInput {
+  connect: ProjectWhereUniqueInput
+  connectOrCreate: ProjectCreateOrConnectWithoutcontributorAttributesInput
+  create: ProjectCreateWithoutContributorAttributesInput
+}
+
+input ProjectCreateOneWithoutDiscoverysInput {
+  connect: ProjectWhereUniqueInput
+  connectOrCreate: ProjectCreateOrConnectWithoutdiscoverysInput
+  create: ProjectCreateWithoutDiscoverysInput
+}
+
+input ProjectCreateOneWithoutMessagesInput {
+  connect: ProjectWhereUniqueInput
+  connectOrCreate: ProjectCreateOrConnectWithoutmessagesInput
+  create: ProjectCreateWithoutMessagesInput
+}
+
+input ProjectCreateOneWithoutOrganizationsInput {
+  connect: ProjectWhereUniqueInput
+  connectOrCreate: ProjectCreateOrConnectWithoutorganizationsInput
+  create: ProjectCreateWithoutOrganizationsInput
+}
+
+input ProjectCreateOneWithoutPersonsInput {
+  connect: ProjectWhereUniqueInput
+  connectOrCreate: ProjectCreateOrConnectWithoutpersonsInput
+  create: ProjectCreateWithoutPersonsInput
+}
+
+input ProjectCreateOrConnectWithoutaccountsInput {
+  create: ProjectCreateWithoutAccountsInput!
+  where: ProjectWhereUniqueInput!
+}
+
+input ProjectCreateOrConnectWithoutchunksInput {
+  create: ProjectCreateWithoutChunksInput!
+  where: ProjectWhereUniqueInput!
+}
+
+input ProjectCreateOrConnectWithoutcontributorAttributesInput {
+  create: ProjectCreateWithoutContributorAttributesInput!
+  where: ProjectWhereUniqueInput!
+}
+
+input ProjectCreateOrConnectWithoutdiscoverysInput {
+  create: ProjectCreateWithoutDiscoverysInput!
+  where: ProjectWhereUniqueInput!
+}
+
+input ProjectCreateOrConnectWithoutmessagesInput {
+  create: ProjectCreateWithoutMessagesInput!
+  where: ProjectWhereUniqueInput!
+}
+
+input ProjectCreateOrConnectWithoutorganizationsInput {
+  create: ProjectCreateWithoutOrganizationsInput!
+  where: ProjectWhereUniqueInput!
+}
+
+input ProjectCreateOrConnectWithoutpersonsInput {
+  create: ProjectCreateWithoutPersonsInput!
+  where: ProjectWhereUniqueInput!
+}
+
+input ProjectCreateWithoutAccountsInput {
+  chunks: ChunkCreateManyWithoutProjectInput
+  contributorAttributes: ContributorAttributeCreateManyWithoutProjectInput
+  discoverys: DiscoveryCreateManyWithoutProjectInput
+  messages: MessageCreateManyWithoutProjectInput
+  name: String!
+  organizations: OrganizationCreateManyWithoutProjectInput
+  persons: PersonCreateManyWithoutProjectInput
+}
+
+input ProjectCreateWithoutChunksInput {
+  accounts: AccountCreateManyWithoutProjectInput
+  contributorAttributes: ContributorAttributeCreateManyWithoutProjectInput
+  discoverys: DiscoveryCreateManyWithoutProjectInput
+  messages: MessageCreateManyWithoutProjectInput
+  name: String!
+  organizations: OrganizationCreateManyWithoutProjectInput
+  persons: PersonCreateManyWithoutProjectInput
+}
+
+input ProjectCreateWithoutContributorAttributesInput {
+  accounts: AccountCreateManyWithoutProjectInput
+  chunks: ChunkCreateManyWithoutProjectInput
+  discoverys: DiscoveryCreateManyWithoutProjectInput
+  messages: MessageCreateManyWithoutProjectInput
+  name: String!
+  organizations: OrganizationCreateManyWithoutProjectInput
+  persons: PersonCreateManyWithoutProjectInput
+}
+
+input ProjectCreateWithoutDiscoverysInput {
+  accounts: AccountCreateManyWithoutProjectInput
+  chunks: ChunkCreateManyWithoutProjectInput
+  contributorAttributes: ContributorAttributeCreateManyWithoutProjectInput
+  messages: MessageCreateManyWithoutProjectInput
+  name: String!
+  organizations: OrganizationCreateManyWithoutProjectInput
+  persons: PersonCreateManyWithoutProjectInput
+}
+
+input ProjectCreateWithoutMessagesInput {
+  accounts: AccountCreateManyWithoutProjectInput
+  chunks: ChunkCreateManyWithoutProjectInput
+  contributorAttributes: ContributorAttributeCreateManyWithoutProjectInput
+  discoverys: DiscoveryCreateManyWithoutProjectInput
+  name: String!
+  organizations: OrganizationCreateManyWithoutProjectInput
+  persons: PersonCreateManyWithoutProjectInput
+}
+
+input ProjectCreateWithoutOrganizationsInput {
+  accounts: AccountCreateManyWithoutProjectInput
+  chunks: ChunkCreateManyWithoutProjectInput
+  contributorAttributes: ContributorAttributeCreateManyWithoutProjectInput
+  discoverys: DiscoveryCreateManyWithoutProjectInput
+  messages: MessageCreateManyWithoutProjectInput
+  name: String!
+  persons: PersonCreateManyWithoutProjectInput
+}
+
+input ProjectCreateWithoutPersonsInput {
+  accounts: AccountCreateManyWithoutProjectInput
+  chunks: ChunkCreateManyWithoutProjectInput
+  contributorAttributes: ContributorAttributeCreateManyWithoutProjectInput
+  discoverys: DiscoveryCreateManyWithoutProjectInput
+  messages: MessageCreateManyWithoutProjectInput
+  name: String!
+  organizations: OrganizationCreateManyWithoutProjectInput
+}
+
+input ProjectWhereUniqueInput {
+  id: Int
 }
 
 type Query {
@@ -186,6 +901,42 @@ type SubMessage {
   submitterId: Int!
 }
 
+input SubMessageCreateManyWithoutMessageInput {
+  connect: [SubMessageWhereUniqueInput!]
+  connectOrCreate: [SubMessageCreateOrConnectWithoutmessageInput!]
+  create: [SubMessageCreateWithoutMessageInput!]
+}
+
+input SubMessageCreateManyWithoutPersonInput {
+  connect: [SubMessageWhereUniqueInput!]
+  connectOrCreate: [SubMessageCreateOrConnectWithoutpersonInput!]
+  create: [SubMessageCreateWithoutPersonInput!]
+}
+
+input SubMessageCreateOrConnectWithoutmessageInput {
+  create: SubMessageCreateWithoutMessageInput!
+  where: SubMessageWhereUniqueInput!
+}
+
+input SubMessageCreateOrConnectWithoutpersonInput {
+  create: SubMessageCreateWithoutPersonInput!
+  where: SubMessageWhereUniqueInput!
+}
+
+input SubMessageCreateWithoutMessageInput {
+  content: String!
+  person: PersonCreateOneWithoutSubMessagesInput!
+}
+
+input SubMessageCreateWithoutPersonInput {
+  content: String!
+  message: MessageCreateOneWithoutSubMessagesInput!
+}
+
+input SubMessageWhereUniqueInput {
+  id: Int
+}
+
 type TextSelection {
   chunk: Chunk!
   chunkId: Int!
@@ -194,4 +945,26 @@ type TextSelection {
   length: Float!
   offsetstart: Float!
   submessagenumber: Int!
+}
+
+input TextSelectionCreateManyWithoutChunkInput {
+  connect: [TextSelectionWhereUniqueInput!]
+  connectOrCreate: [TextSelectionCreateOrConnectWithoutchunkInput!]
+  create: [TextSelectionCreateWithoutChunkInput!]
+}
+
+input TextSelectionCreateOrConnectWithoutchunkInput {
+  create: TextSelectionCreateWithoutChunkInput!
+  where: TextSelectionWhereUniqueInput!
+}
+
+input TextSelectionCreateWithoutChunkInput {
+  content: String!
+  length: Float!
+  offsetstart: Float!
+  submessagenumber: Int!
+}
+
+input TextSelectionWhereUniqueInput {
+  id: Int
 }
