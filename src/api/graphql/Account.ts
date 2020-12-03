@@ -46,7 +46,7 @@ export const addAccount = extendType({
   type: 'Mutation',
   definition(t) {
     t.field('addAccount', {
-      type: Account,
+      type: 'Account',
       args: {
         username: stringArg({ required: true }),
         hashedPassword: stringArg({ required: true }),
