@@ -163,14 +163,14 @@ input ContributorAttributeCreateManyWithoutProjectInput {
   create: [ContributorAttributeCreateWithoutProjectInput!]
 }
 
-input ContributorAttributeCreateOneWithoutContributorAttributeValuesInput {
+input ContributorAttributeCreateOneWithoutContributorAttributeValueInput {
   connect: ContributorAttributeWhereUniqueInput
-  connectOrCreate: ContributorAttributeCreateOrConnectWithoutcontributorAttributeValuesInput
-  create: ContributorAttributeCreateWithoutContributorAttributeValuesInput
+  connectOrCreate: ContributorAttributeCreateOrConnectWithoutcontributorAttributeValueInput
+  create: ContributorAttributeCreateWithoutContributorAttributeValueInput
 }
 
-input ContributorAttributeCreateOrConnectWithoutcontributorAttributeValuesInput {
-  create: ContributorAttributeCreateWithoutContributorAttributeValuesInput!
+input ContributorAttributeCreateOrConnectWithoutcontributorAttributeValueInput {
+  create: ContributorAttributeCreateWithoutContributorAttributeValueInput!
   where: ContributorAttributeWhereUniqueInput!
 }
 
@@ -179,7 +179,7 @@ input ContributorAttributeCreateOrConnectWithoutprojectInput {
   where: ContributorAttributeWhereUniqueInput!
 }
 
-input ContributorAttributeCreateWithoutContributorAttributeValuesInput {
+input ContributorAttributeCreateWithoutContributorAttributeValueInput {
   appliesTo: ENTITY_TYPE
   id: Int
   name: String!
@@ -189,7 +189,7 @@ input ContributorAttributeCreateWithoutContributorAttributeValuesInput {
 
 input ContributorAttributeCreateWithoutProjectInput {
   appliesTo: ENTITY_TYPE
-  contributorAttributeValues: ContributorAttributeValueCreateManyWithoutContributorAttributeInput
+  contributorAttributeValue: ContributorAttributeValueCreateManyWithoutContributorAttributeInput
   id: Int
   name: String!
   type: CONTRIBUTOR_ATTRIBUTE_TYPE!
@@ -250,13 +250,13 @@ input ContributorAttributeValueCreateWithoutContributorAttributeInput {
 }
 
 input ContributorAttributeValueCreateWithoutOrganizationInput {
-  contributorAttribute: ContributorAttributeCreateOneWithoutContributorAttributeValuesInput!
+  contributorAttribute: ContributorAttributeCreateOneWithoutContributorAttributeValueInput!
   person: PersonCreateOneWithoutContributorAttributeValuesInput!
   valuetext: String
 }
 
 input ContributorAttributeValueCreateWithoutPersonInput {
-  contributorAttribute: ContributorAttributeCreateOneWithoutContributorAttributeValuesInput!
+  contributorAttribute: ContributorAttributeCreateOneWithoutContributorAttributeValueInput!
   organization: OrganizationCreateOneWithoutContributorAttributeValuesInput!
   valuetext: String
 }
