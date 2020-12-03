@@ -66,11 +66,7 @@ export const addAccount = extendType({
         email: stringArg({ nullable: false }),
       },
 
-      resolve(
-        _,
-        args,
-        ctx,
-      ) {
+      resolve(_, args, ctx) {
         return ctx.prisma.account.create({
           data: {
             username: args.username,

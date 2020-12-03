@@ -40,16 +40,15 @@ export const deleteProject = extendType({
     t.field('deleteProject', {
       type: 'Project',
       args: {
-        id: intArg({ required: true })
+        id: intArg({ required: true }),
       },
       resolve(_, args, ctx) {
         return ctx.prisma.project.delete({
-          where: {id: args.id}
+          where: { id: args.id },
         })
-      }
+      },
     })
-    
-  }
+  },
 })
 
 export const createProject = extendType({
