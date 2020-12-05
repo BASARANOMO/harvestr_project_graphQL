@@ -16,17 +16,12 @@ export const OrganizationQuery = extendType({
   type: 'Query',
   definition(t) {
     t.list.field('organizations', {
-      // Call organizations as a function, with id as input
-      // Le passer dans le findMany pour filtrer
       args: {
         id: stringArg(),
       },
       type: 'Organization',
       resolve(_, args, ctx) {
         return ctx.prisma.organization.findMany()
-        //return ctx.prisma.organization.findMany({
-        //  where: { id: 1 },
-        //})
       },
     })
   },

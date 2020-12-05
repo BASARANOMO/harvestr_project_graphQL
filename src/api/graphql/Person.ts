@@ -22,18 +22,22 @@ export const PersonQuery = extendType({
   type: 'Query',
   definition(t) {
     t.list.field('persons', {
-      // Call persons as a function, with id as input
-      // Le passer dans le findMany pour filtrer
       args: {
         id: stringArg(),
       },
       type: 'Person',
       resolve(_, args, ctx) {
         return ctx.prisma.person.findMany()
-        //return ctx.prisma.person.findMany({
-        //  where: { id: 1 },
-        //})
       },
+    })
+  },
+})
+
+export const createPerson = extendType({
+  type: 'Mutation',
+  definition(t) {
+    t.crud.createOnePerson({
+      alias: 'createPerson',
     })
   },
 })

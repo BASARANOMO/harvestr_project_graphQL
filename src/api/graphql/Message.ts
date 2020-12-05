@@ -22,17 +22,12 @@ export const MessageQuery = extendType({
   type: 'Query',
   definition(t) {
     t.list.field('message', {
-      // Call message as a function, with id as input
-      // Le passer dans le findMany pour filtrer
       args: {
         id: stringArg(),
       },
       type: 'Message',
       resolve(_, args, ctx) {
         return ctx.prisma.message.findMany()
-        //return ctx.prisma.message.findMany({
-        //  where: { id: 1 },
-        //})
       },
     })
   },
