@@ -30,13 +30,13 @@ model Chunk {
 }
 
 model ContributorAttribute {
-  projectId                 Int
-  id                        Int                         @default(autoincrement())
-  appliesTo                 ENTITY_TYPE?
-  name                      String
-  type                      CONTRIBUTOR_ATTRIBUTE_TYPE
-  project                   Project                     @relation(fields: [projectId], references: [id])
-  contributorAttributeValue ContributorAttributeValue[]
+  projectId                  Int
+  id                         Int                         @default(autoincrement())
+  appliesTo                  ENTITY_TYPE?
+  name                       String
+  type                       CONTRIBUTOR_ATTRIBUTE_TYPE
+  project                    Project                     @relation(fields: [projectId], references: [id])
+  contributorAttributeValues ContributorAttributeValue[]
 
   @@id([id, type])
 }
