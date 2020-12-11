@@ -7,7 +7,7 @@ export const schema = makeSchema({
   types: typeDefs,
   plugins: [
     nexusPrisma({ experimentalCRUD: true }),
-    declarativeWrappingPlugin()
+    declarativeWrappingPlugin(),
   ],
   outputs: {
     schema: __dirname + '../../generated/schema.graphql',
