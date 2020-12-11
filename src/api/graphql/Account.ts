@@ -7,9 +7,9 @@ import {
   intArg,
 } from '@nexus/schema'
 //import { PersonDistinctFieldEnum } from '@prisma/client'
-import { receiveMessageOnPort } from 'worker_threads'
-import { Person } from './Person'
-import { Project } from './Project'
+//import { receiveMessageOnPort } from 'worker_threads'
+//import { Person } from './Person'
+//import { Project } from './Project'
 
 export const ACCOUNT_TYPE = enumType({
   name: 'account_type',
