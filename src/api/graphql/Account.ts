@@ -6,7 +6,7 @@ import {
   idArg,
   intArg,
 } from '@nexus/schema'
-import { PersonDistinctFieldEnum } from '@prisma/client'
+//import { PersonDistinctFieldEnum } from '@prisma/client'
 import { receiveMessageOnPort } from 'worker_threads'
 import { Person } from './Person'
 import { Project } from './Project'
