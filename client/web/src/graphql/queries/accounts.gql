@@ -1,0 +1,12 @@
+query accounts {
+	accounts {
+		id
+		username
+		hashedPassword
+		type
+		project {
+			id
+			name
+		}
+	}
+}

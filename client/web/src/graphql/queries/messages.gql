@@ -1,0 +1,8 @@
+query messages {
+	messages {
+		id
+		content
+		requesterId
+		submitterId
+	}
+}

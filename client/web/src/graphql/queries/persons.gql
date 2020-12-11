@@ -1,0 +1,19 @@
+query persons {
+	persons {
+		id
+		name
+		email
+		organization {
+			id
+			name
+			project {
+				id
+				name
+				accounts {
+					id
+					username
+				}
+			}
+		}
+	}
+}
