@@ -66,10 +66,10 @@ export const addAccountThenConnect = extendType({
             username: args.username,
             hashedPassword: args.hashedPassword,
             person: {
-              connect: { id: args.personId }
+              connect: { id: args.personId },
             },
             project: {
-              connect: { id: args.projectId }
+              connect: { id: args.projectId },
             },
           },
         })
@@ -77,7 +77,6 @@ export const addAccountThenConnect = extendType({
     })
   },
 })
-
 
 //https://nexusjs.org/docs/getting-started/tutorial/chapter-adding-mutations-to-your-api
 // Creates new account
@@ -167,16 +166,16 @@ export const updateAccount = extendType({
       type: 'Account',
       nullable: true,
       args: {
-        id: intArg({required: true}),
+        id: intArg({ required: true }),
         username: stringArg({ nullable: false }),
         hashedPassword: stringArg({ nullable: false }),
       },
       resolve(_, args, ctx) {
         return ctx.prisma.account.update({
-          where:{id: args.id},
+          where: { id: args.id },
           data: {
             username: args.username,
-            hashedPassword: args.hashedPassword
+            hashedPassword: args.hashedPassword,
           },
         })
       },
