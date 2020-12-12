@@ -70,8 +70,8 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public."Account" (
     id integer NOT NULL,
-    username character varying(255) NOT NULL,
-    "hashedPassword" character varying(255) NOT NULL,
+    username text NOT NULL,
+    "hashedPassword" text NOT NULL,
     "personId" integer NOT NULL,
     "projectId" integer NOT NULL,
     type public."ACCOUNT_TYPE"
@@ -146,7 +146,7 @@ CREATE TABLE public."ContributorAttribute" (
     "projectId" integer NOT NULL,
     id integer NOT NULL,
     "appliesTo" public."ENTITY_TYPE",
-    name character varying(255) NOT NULL,
+    name text NOT NULL,
     type public."CONTRIBUTOR_ATTRIBUTE_TYPE" NOT NULL
 );
 
@@ -159,12 +159,11 @@ ALTER TABLE public."ContributorAttribute" OWNER TO postgres;
 
 CREATE TABLE public."ContributorAttributeValue" (
     id integer NOT NULL,
-    "ContributorAttributeId" integer NOT NULL,
-    "ContributorAttributeType" public."CONTRIBUTOR_ATTRIBUTE_TYPE" NOT NULL,
+    "contributorAttributeId" integer NOT NULL,
+    "contributorAttributeType" public."CONTRIBUTOR_ATTRIBUTE_TYPE" NOT NULL,
     "personId" integer NOT NULL,
     "organizationId" integer NOT NULL,
-    valuetext text,
-    CONSTRAINT person_organization_not_null CHECK ((NOT (("personId" IS NULL) AND ("organizationId" IS NULL) AND (("personId" IS NOT NULL) AND ("organizationId" IS NOT NULL)))))
+    valuetext text
 );
 
 
@@ -221,7 +220,7 @@ ALTER SEQUENCE public."ContributorAttribute_id_seq" OWNED BY public."Contributor
 CREATE TABLE public."Discovery" (
     "projectId" integer NOT NULL,
     id integer NOT NULL,
-    title character varying(255) NOT NULL,
+    title text NOT NULL,
     description text
 );
 
@@ -259,8 +258,8 @@ CREATE TABLE public."Message" (
     id integer NOT NULL,
     "requesterId" integer NOT NULL,
     "submitterId" integer NOT NULL,
-    "clientId" character varying(255),
-    title character varying(255),
+    "clientId" text,
+    title text,
     content text
 );
 
@@ -296,7 +295,7 @@ ALTER SEQUENCE public."Message_id_seq" OWNED BY public."Message".id;
 CREATE TABLE public."Organization" (
     "projectId" integer NOT NULL,
     id integer NOT NULL,
-    name character varying(255) NOT NULL
+    name text NOT NULL
 );
 
 
@@ -331,8 +330,8 @@ ALTER SEQUENCE public."Organization_id_seq" OWNED BY public."Organization".id;
 CREATE TABLE public."Person" (
     "projectId" integer NOT NULL,
     id integer NOT NULL,
-    name character varying(255) NOT NULL,
-    email character varying(255) NOT NULL,
+    name text NOT NULL,
+    email text NOT NULL,
     "organizationId" integer NOT NULL
 );
 
@@ -367,7 +366,7 @@ ALTER SEQUENCE public."Person_id_seq" OWNED BY public."Person".id;
 
 CREATE TABLE public."Project" (
     id integer NOT NULL,
-    name character varying(255) NOT NULL
+    name text NOT NULL
 );
 
 
@@ -437,8 +436,8 @@ ALTER SEQUENCE public."SubMessage_id_seq" OWNED BY public."SubMessage".id;
 
 CREATE TABLE public."TextSelection" (
     id integer NOT NULL,
-    offsetstart numeric NOT NULL,
-    length numeric NOT NULL,
+    offsetstart numeric(65,30) NOT NULL,
+    length numeric(65,30) NOT NULL,
     submessagenumber integer NOT NULL,
     content text NOT NULL,
     "chunkId" integer NOT NULL
@@ -468,6 +467,24 @@ ALTER TABLE public."TextSelection_id_seq" OWNER TO postgres;
 
 ALTER SEQUENCE public."TextSelection_id_seq" OWNED BY public."TextSelection".id;
 
+
+--
+-- Name: _prisma_migrations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public._prisma_migrations (
+    id character varying(36) NOT NULL,
+    checksum character varying(64) NOT NULL,
+    finished_at timestamp with time zone,
+    migration_name character varying(255) NOT NULL,
+    logs text,
+    rolled_back_at timestamp with time zone,
+    started_at timestamp with time zone DEFAULT now() NOT NULL,
+    applied_steps_count integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public._prisma_migrations OWNER TO postgres;
 
 --
 -- Name: Account id; Type: DEFAULT; Schema: public; Owner: postgres
@@ -574,7 +591,7 @@ COPY public."ContributorAttribute" ("projectId", id, "appliesTo", name, type) FR
 -- Data for Name: ContributorAttributeValue; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."ContributorAttributeValue" (id, "ContributorAttributeId", "ContributorAttributeType", "personId", "organizationId", valuetext) FROM stdin;
+COPY public."ContributorAttributeValue" (id, "contributorAttributeId", "contributorAttributeType", "personId", "organizationId", valuetext) FROM stdin;
 \.
 
 
@@ -615,7 +632,6 @@ COPY public."Person" ("projectId", id, name, email, "organizationId") FROM stdin
 --
 
 COPY public."Project" (id, name) FROM stdin;
-1	Harvestr
 \.
 
 
@@ -632,6 +648,15 @@ COPY public."SubMessage" (id, "submitterId", content, "messageId") FROM stdin;
 --
 
 COPY public."TextSelection" (id, offsetstart, length, submessagenumber, content, "chunkId") FROM stdin;
+\.
+
+
+--
+-- Data for Name: _prisma_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public._prisma_migrations (id, checksum, finished_at, migration_name, logs, rolled_back_at, started_at, applied_steps_count) FROM stdin;
+997bff30-b081-4565-909e-1ea229306a8b	458562597498178f298c6fceca5e3fc818bd2d68bb8e5ee13610b18b3230a9	2020-12-11 11:07:45.57505+01	20201211100733_init	\N	\N	2020-12-11 11:07:45.489335+01	1
 \.
 
 
@@ -695,7 +720,7 @@ SELECT pg_catalog.setval('public."Person_id_seq"', 1, false);
 -- Name: Project_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Project_id_seq"', 1, true);
+SELECT pg_catalog.setval('public."Project_id_seq"', 1, false);
 
 
 --
@@ -726,14 +751,6 @@ ALTER TABLE ONLY public."Account"
 
 ALTER TABLE ONLY public."Chunk"
     ADD CONSTRAINT "Chunk_pkey" PRIMARY KEY (id);
-
-
---
--- Name: ContributorAttributeValue ContributorAttributeValue_ContributorAttributeId_personId_o_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."ContributorAttributeValue"
-    ADD CONSTRAINT "ContributorAttributeValue_ContributorAttributeId_personId_o_key" UNIQUE ("ContributorAttributeId", "personId", "organizationId");
 
 
 --
@@ -809,11 +826,26 @@ ALTER TABLE ONLY public."TextSelection"
 
 
 --
+-- Name: _prisma_migrations _prisma_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public._prisma_migrations
+    ADD CONSTRAINT _prisma_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ContributorAttributeValue_contributorAttributeId_personId_o_key; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX "ContributorAttributeValue_contributorAttributeId_personId_o_key" ON public."ContributorAttributeValue" USING btree ("contributorAttributeId", "personId", "organizationId");
+
+
+--
 -- Name: Account Account_personId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Account"
-    ADD CONSTRAINT "Account_personId_fkey" FOREIGN KEY ("personId") REFERENCES public."Person"(id);
+    ADD CONSTRAINT "Account_personId_fkey" FOREIGN KEY ("personId") REFERENCES public."Person"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -821,7 +853,7 @@ ALTER TABLE ONLY public."Account"
 --
 
 ALTER TABLE ONLY public."Account"
-    ADD CONSTRAINT "Account_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES public."Project"(id);
+    ADD CONSTRAINT "Account_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES public."Project"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -829,7 +861,7 @@ ALTER TABLE ONLY public."Account"
 --
 
 ALTER TABLE ONLY public."Chunk"
-    ADD CONSTRAINT "Chunk_discoveryId_fkey" FOREIGN KEY ("discoveryId") REFERENCES public."Discovery"(id);
+    ADD CONSTRAINT "Chunk_discoveryId_fkey" FOREIGN KEY ("discoveryId") REFERENCES public."Discovery"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -837,7 +869,7 @@ ALTER TABLE ONLY public."Chunk"
 --
 
 ALTER TABLE ONLY public."Chunk"
-    ADD CONSTRAINT "Chunk_messageId_fkey" FOREIGN KEY ("messageId") REFERENCES public."Message"(id);
+    ADD CONSTRAINT "Chunk_messageId_fkey" FOREIGN KEY ("messageId") REFERENCES public."Message"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -845,15 +877,15 @@ ALTER TABLE ONLY public."Chunk"
 --
 
 ALTER TABLE ONLY public."Chunk"
-    ADD CONSTRAINT "Chunk_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES public."Project"(id);
+    ADD CONSTRAINT "Chunk_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES public."Project"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
--- Name: ContributorAttributeValue ContributorAttributeValue_ContributorAttributeId_Contribut_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: ContributorAttributeValue ContributorAttributeValue_contributorAttributeId_contribut_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."ContributorAttributeValue"
-    ADD CONSTRAINT "ContributorAttributeValue_ContributorAttributeId_Contribut_fkey" FOREIGN KEY ("ContributorAttributeId", "ContributorAttributeType") REFERENCES public."ContributorAttribute"(id, type);
+    ADD CONSTRAINT "ContributorAttributeValue_contributorAttributeId_contribut_fkey" FOREIGN KEY ("contributorAttributeId", "contributorAttributeType") REFERENCES public."ContributorAttribute"(id, type) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -861,7 +893,7 @@ ALTER TABLE ONLY public."ContributorAttributeValue"
 --
 
 ALTER TABLE ONLY public."ContributorAttributeValue"
-    ADD CONSTRAINT "ContributorAttributeValue_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES public."Organization"(id);
+    ADD CONSTRAINT "ContributorAttributeValue_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES public."Organization"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -869,7 +901,7 @@ ALTER TABLE ONLY public."ContributorAttributeValue"
 --
 
 ALTER TABLE ONLY public."ContributorAttributeValue"
-    ADD CONSTRAINT "ContributorAttributeValue_personId_fkey" FOREIGN KEY ("personId") REFERENCES public."Person"(id);
+    ADD CONSTRAINT "ContributorAttributeValue_personId_fkey" FOREIGN KEY ("personId") REFERENCES public."Person"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -877,7 +909,7 @@ ALTER TABLE ONLY public."ContributorAttributeValue"
 --
 
 ALTER TABLE ONLY public."ContributorAttribute"
-    ADD CONSTRAINT "ContributorAttribute_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES public."Project"(id);
+    ADD CONSTRAINT "ContributorAttribute_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES public."Project"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -885,7 +917,7 @@ ALTER TABLE ONLY public."ContributorAttribute"
 --
 
 ALTER TABLE ONLY public."Discovery"
-    ADD CONSTRAINT "Discovery_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES public."Project"(id);
+    ADD CONSTRAINT "Discovery_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES public."Project"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -893,7 +925,7 @@ ALTER TABLE ONLY public."Discovery"
 --
 
 ALTER TABLE ONLY public."Message"
-    ADD CONSTRAINT "Message_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES public."Project"(id);
+    ADD CONSTRAINT "Message_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES public."Project"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -901,7 +933,7 @@ ALTER TABLE ONLY public."Message"
 --
 
 ALTER TABLE ONLY public."Message"
-    ADD CONSTRAINT "Message_requesterId_fkey" FOREIGN KEY ("requesterId") REFERENCES public."Person"(id);
+    ADD CONSTRAINT "Message_requesterId_fkey" FOREIGN KEY ("requesterId") REFERENCES public."Person"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -909,7 +941,7 @@ ALTER TABLE ONLY public."Message"
 --
 
 ALTER TABLE ONLY public."Message"
-    ADD CONSTRAINT "Message_submitterId_fkey" FOREIGN KEY ("submitterId") REFERENCES public."Person"(id);
+    ADD CONSTRAINT "Message_submitterId_fkey" FOREIGN KEY ("submitterId") REFERENCES public."Person"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -917,7 +949,7 @@ ALTER TABLE ONLY public."Message"
 --
 
 ALTER TABLE ONLY public."Organization"
-    ADD CONSTRAINT "Organization_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES public."Project"(id);
+    ADD CONSTRAINT "Organization_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES public."Project"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -925,7 +957,7 @@ ALTER TABLE ONLY public."Organization"
 --
 
 ALTER TABLE ONLY public."Person"
-    ADD CONSTRAINT "Person_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES public."Organization"(id);
+    ADD CONSTRAINT "Person_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES public."Organization"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -933,7 +965,7 @@ ALTER TABLE ONLY public."Person"
 --
 
 ALTER TABLE ONLY public."Person"
-    ADD CONSTRAINT "Person_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES public."Project"(id);
+    ADD CONSTRAINT "Person_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES public."Project"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -941,7 +973,7 @@ ALTER TABLE ONLY public."Person"
 --
 
 ALTER TABLE ONLY public."SubMessage"
-    ADD CONSTRAINT "SubMessage_messageId_fkey" FOREIGN KEY ("messageId") REFERENCES public."Message"(id);
+    ADD CONSTRAINT "SubMessage_messageId_fkey" FOREIGN KEY ("messageId") REFERENCES public."Message"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -949,7 +981,7 @@ ALTER TABLE ONLY public."SubMessage"
 --
 
 ALTER TABLE ONLY public."SubMessage"
-    ADD CONSTRAINT "SubMessage_submitterId_fkey" FOREIGN KEY ("submitterId") REFERENCES public."Person"(id);
+    ADD CONSTRAINT "SubMessage_submitterId_fkey" FOREIGN KEY ("submitterId") REFERENCES public."Person"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -957,7 +989,7 @@ ALTER TABLE ONLY public."SubMessage"
 --
 
 ALTER TABLE ONLY public."TextSelection"
-    ADD CONSTRAINT "TextSelection_chunkId_fkey" FOREIGN KEY ("chunkId") REFERENCES public."Chunk"(id);
+    ADD CONSTRAINT "TextSelection_chunkId_fkey" FOREIGN KEY ("chunkId") REFERENCES public."Chunk"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
