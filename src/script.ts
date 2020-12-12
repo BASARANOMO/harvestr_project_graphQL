@@ -54,20 +54,20 @@ async function main() {
           },
         },
       })
-      // const contributorAttributeValue = await prisma.contributorAttributeValue.create({
-      //   data: {
-      //     //valuetext: 'Value text ' + 1,
-      //     person: {
-      //       connect: { id: k },
-      //     },
-      //     organization: {
-      //       connect: { id: k },
-      //     },
-      //     contributorAttribute: {
-      //       connect: { id_type: { id: k, type: 'TEXT' } },
-      //     },
-      //   },
-      // })
+       const contributorAttributeValue = await prisma.contributorAttributeValue.create({
+         data: {
+           //valuetext: 'Value text ' + 1,
+           person: {
+             connect: { id: k },
+           },
+           organization: {
+             connect: { id: k },
+           },
+           contributorAttribute: {
+             connect: { id_type: { id: k, type: 'TEXT' } },
+           },
+         },
+       })
     }
     for (let m = 1; m <= NB_MESSAGES / NB_PROJECTS; m++) {
       var k = (i - 1) * NB_MESSAGES / NB_PROJECTS + m;
