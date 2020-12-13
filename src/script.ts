@@ -1,23 +1,20 @@
 import { prisma } from './context'
 
-const NB_PROJECTS = 3;
-const NB_ACCOUNTS = 10500;
-const NB_MESSAGES = 51000;
-const NB_DISCOVERIES = 30000;
-
+const NB_PROJECTS = 3
+const NB_ACCOUNTS = 10500
+const NB_MESSAGES = 51000
+const NB_DISCOVERIES = 30000
 
 async function main() {
-
   for (let i = 1; i <= NB_PROJECTS; i++) {
-
     const project = await prisma.project.create({
       data: {
         name: 'Project ' + i,
       },
     })
 
-    for (let j = 1; j <= NB_ACCOUNTS/NB_PROJECTS; j++) {
-      var k = (i - 1) * NB_ACCOUNTS/NB_PROJECTS + j;
+    for (let j = 1; j <= NB_ACCOUNTS / NB_PROJECTS; j++) {
+      var k = ((i - 1) * NB_ACCOUNTS) / NB_PROJECTS + j
 
       const account = await prisma.account.create({
         data: {
@@ -36,7 +33,7 @@ async function main() {
                   project: {
                     connect: { id: i },
                   },
-                }
+                },
               },
               project: {
                 connect: { id: i },
@@ -54,25 +51,30 @@ async function main() {
           },
         },
       })
-       const contributorAttributeValue = await prisma.contributorAttributeValue.create({
-         data: {
-           //valuetext: 'Value text ' + 1,
-           person: {
-             connect: { id: k },
-           },
-           organization: {
-             connect: { id: k },
-           },
-           contributorAttribute: {
-             connect: { id_type: { id: k, type: 'TEXT' } },
-           },
-         },
-       })
+      const contributorAttributeValue = await prisma.contributorAttributeValue.create(
+        {
+          data: {
+            //valuetext: 'Value text ' + 1,
+            person: {
+              connect: { id: k },
+            },
+            organization: {
+              connect: { id: k },
+            },
+            contributorAttribute: {
+              connect: { id_type: { id: k, type: 'TEXT' } },
+            },
+          },
+        },
+      )
     }
     for (let m = 1; m <= NB_MESSAGES / NB_PROJECTS; m++) {
-      var k = (i - 1) * NB_MESSAGES / NB_PROJECTS + m;
-      var p = Math.floor(Math.random() * (NB_ACCOUNTS / NB_PROJECTS -1) + (i - 1) * NB_ACCOUNTS / NB_PROJECTS);
-      console.log(p);
+      var k = ((i - 1) * NB_MESSAGES) / NB_PROJECTS + m
+      var p = Math.floor(
+        Math.random() * (NB_ACCOUNTS / NB_PROJECTS - 1) +
+          ((i - 1) * NB_ACCOUNTS) / NB_PROJECTS,
+      )
+      console.log(p)
       const message = await prisma.message.create({
         data: {
           content: 'Message ' + k,
@@ -80,16 +82,16 @@ async function main() {
             connect: { id: i },
           },
           person_Message_requesterIdToPerson: {
-            connect: { id: p+1 },
+            connect: { id: p + 1 },
           },
           person_Message_submitterIdToPerson: {
-            connect: { id: p+2 },
+            connect: { id: p + 2 },
           },
         },
       })
     }
     for (let n = 1; n <= NB_DISCOVERIES / NB_PROJECTS; n++) {
-      var k = (i - 1) * NB_DISCOVERIES / NB_PROJECTS + n;
+      var k = ((i - 1) * NB_DISCOVERIES) / NB_PROJECTS + n
       const discovery = await prisma.discovery.create({
         data: {
           title: 'Discovery ' + k,
@@ -101,7 +103,6 @@ async function main() {
     }
   }
 }
-
 
 main()
   .catch((e) => {

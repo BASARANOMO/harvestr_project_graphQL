@@ -43,20 +43,19 @@ export const AccountQuery = extendType({
         //return [{id: 1, username: 'Jack'}]
       },
     }),
-
-    t.list.field('filterAccountsByUsername', {
-      args: {
-        username: stringArg({ nullable: false }),
-      },
-      type: 'Account',
-      resolve(_, args, ctx) {
-        return ctx.prisma.account.findMany({
-          where: {
-            username: args.username,
-          }
-        })
-      }
-    })
+      t.list.field('filterAccountsByUsername', {
+        args: {
+          username: stringArg({ nullable: false }),
+        },
+        type: 'Account',
+        resolve(_, args, ctx) {
+          return ctx.prisma.account.findMany({
+            where: {
+              username: args.username,
+            },
+          })
+        },
+      })
   },
 })
 
