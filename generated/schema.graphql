@@ -891,7 +891,8 @@ type Query {
   message(id: String): [Message]
   organizations(id: String): [Organization]
   persons(id: String): [Person]
-  projects(id: String): [Project]
+  project(id: Int!): [Project]
+  projects: [Project]
   sub_messages(id: String): [SubMessage]
   text_selection(id: String): [TextSelection]
 }

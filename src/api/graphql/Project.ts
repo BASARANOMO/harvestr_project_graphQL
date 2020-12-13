@@ -19,12 +19,22 @@ export const ProjectQuery = extendType({
   type: 'Query',
   definition(t) {
     t.list.field('projects', {
-      args: {
-        id: stringArg(),
-      },
       type: 'Project',
       resolve(_, args, ctx) {
         return ctx.prisma.project.findMany()
+      },
+    }),
+    t.list.field('project', {
+      args: {
+        id: intArg({ nullable: false }),
+      },
+      type: 'Project',
+      resolve(_, args, ctx) {
+        return ctx.prisma.project.findMany({
+          where: {
+            id: args.id,
+          },
+        })
       },
     })
   },
