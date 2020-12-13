@@ -34,9 +34,7 @@ export const AccountQuery = extendType({
     t.list.field('accounts', {
       // Call account as a function, with id as input
       // Le passer dans le findMany pour filtrer
-      args: {
-        id: stringArg(),
-      },
+      args: {},
       type: 'Account',
       //list: true,
       resolve(_, args, ctx) {
@@ -44,6 +42,20 @@ export const AccountQuery = extendType({
         //return ctx.prisma.account.findMany({where: { id: 1 },})
         //return [{id: 1, username: 'Jack'}]
       },
+    }),
+
+    t.list.field('filterAccountsByUsername', {
+      args: {
+        username: stringArg({ nullable: false }),
+      },
+      type: 'Account',
+      resolve(_, args, ctx) {
+        return ctx.prisma.account.findMany({
+          where: {
+            username: args.username,
+          }
+        })
+      }
     })
   },
 })

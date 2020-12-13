@@ -882,11 +882,12 @@ input ProjectWhereUniqueInput {
 }
 
 type Query {
-  accounts(id: String): [Account]
+  accounts: [Account]
   chunks(id: String): [Chunk]
   contributor_attribute_value(id: String): [ContributorAttributeValue]
   contributor_attributes(id: String): [ContributorAttribute]
   discovery(id: String): [Discovery]
+  filterAccountsByUsername(username: String!): [Account]
   message(id: String): [Message]
   organizations(id: String): [Organization]
   persons(id: String): [Person]
