@@ -60,7 +60,9 @@ export const AccountQuery = extendType({
   },
 })
 
-export const addAccountThenConnect = extendType({
+//https://nexusjs.org/docs/getting-started/tutorial/chapter-adding-mutations-to-your-api
+// Creates new account
+export const addAccount = extendType({
   type: 'Mutation',
   definition(t) {
     t.field('addAccountThenConnect', {
@@ -87,14 +89,7 @@ export const addAccountThenConnect = extendType({
         })
       },
     })
-  },
-})
 
-//https://nexusjs.org/docs/getting-started/tutorial/chapter-adding-mutations-to-your-api
-// Creates new account
-export const addAccount = extendType({
-  type: 'Mutation',
-  definition(t) {
     t.field('addAccount', {
       type: 'Account',
       args: {
@@ -168,12 +163,7 @@ export const addAccount = extendType({
         })
       },
     })
-  },
-})
 
-export const updateAccount = extendType({
-  type: 'Mutation',
-  definition(t) {
     t.field('updateAccount', {
       type: 'Account',
       nullable: true,
