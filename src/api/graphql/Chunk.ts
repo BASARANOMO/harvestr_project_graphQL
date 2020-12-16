@@ -5,6 +5,7 @@ export const Chunk = objectType({
   definition(t) {
     t.model.projectId()
     t.model.id()
+    t.model.message()
     t.model.messageId()
     t.model.discoveryId()
     // t.model.discovery()
