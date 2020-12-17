@@ -5,7 +5,9 @@ export const Message = objectType({
   definition(t) {
     t.model.projectId()
     t.model.id()
+    t.model.person_Message_requesterIdToPerson()
     t.model.requesterId()
+    t.model.person_Message_submitterIdToPerson()
     t.model.submitterId()
     t.model.clientId()
     t.model.title()

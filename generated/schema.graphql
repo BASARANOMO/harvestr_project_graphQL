@@ -66,6 +66,7 @@ input AccountWhereUniqueInput {
 type Chunk {
   discoveryId: Int!
   id: Int!
+  message: Message!
   messageId: Int!
   projectId: Int!
 }
@@ -337,6 +338,8 @@ type Message {
   clientId: String
   content: String
   id: Int!
+  person_Message_requesterIdToPerson: Person!
+  person_Message_submitterIdToPerson: Person!
   project: Project!
   projectId: Int!
   requesterId: Int!
