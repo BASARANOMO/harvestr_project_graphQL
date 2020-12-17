@@ -3,6 +3,36 @@ import { createContext } from './context'
 
 const context = createContext()
 
+type MessageSelect = {
+    id?: boolean
+    title?: boolean
+    content?: boolean
+}
+
+type MessageInclude = {
+    submitter?: boolean | PersonArgs
+}
+
+type PersonArgs = {
+    select?: PersonSelect | null
+    include?: PersonInclude | null
+}
+
+type PersonSelect = {
+    id?: boolean
+    name?: boolean
+    email?: boolean
+}
+
+type PersonInclude = {
+    message_submitter?: boolean | FindManyMessageSubmittedArgs
+}
+
+type FindManyMessageSubmittedArgs = {
+    select?: MessageSelect | null
+    include?: MessageInclude | null
+}
+
 async function main() {
     /*
     const project = await context.prisma.project.findUnique({
@@ -28,15 +58,25 @@ async function main() {
         where: { discovery: { project: { id: 1 } } }
     })
     */
-    
+    /*
     const messageByChunk = await context.prisma.chunk.findMany({
        where: { discovery: { project: { id: 1 } } },
        select: {
            message: true
        }
     })
+    */
 
-    console.log(messageByChunk)
+   const submitters = await context.prisma.chunk.findMany({
+    where: { discovery: { project: { id: 1 } } },
+    select: {
+        message: {
+            include: { person_Message_submitterIdToPerson: true }
+        }
+    }
+ })
+
+    console.log(submitters)
 }
 
 main()
