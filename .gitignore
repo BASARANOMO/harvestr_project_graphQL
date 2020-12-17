@@ -13,3 +13,4 @@
 # IDE - VSCode
 .vscode/*
 .history/*
+**/node_modules/
