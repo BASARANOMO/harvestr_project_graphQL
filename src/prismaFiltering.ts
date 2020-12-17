@@ -28,12 +28,15 @@ async function main() {
         where: { discovery: { project: { id: 1 } } }
     })
     */
-   // bug to fix
-   const chunks = await context.prisma.chunk.findMany({
-       where: { discovery: { project: { id: 1 } } }
-    }).message()
+    
+    const messageByChunk = await context.prisma.chunk.findMany({
+       where: { discovery: { project: { id: 1 } } },
+       select: {
+           message: true
+       }
+    })
 
-    console.log(chunks)
+    console.log(messageByChunk)
 }
 
 main()
