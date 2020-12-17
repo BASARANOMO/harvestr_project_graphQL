@@ -92,13 +92,28 @@ async function main() {
     }
     for (let n = 1; n <= NB_DISCOVERIES / NB_PROJECTS; n++) {
       var k = ((i - 1) * NB_DISCOVERIES) / NB_PROJECTS + n
+      var p = Math.floor(
+        Math.random() * (NB_MESSAGES / NB_PROJECTS - 1) +
+          ((i - 1) * NB_MESSAGES) / NB_PROJECTS,
+      )
+      console.log(p)
       const discovery = await prisma.discovery.create({
         data: {
           title: 'Discovery ' + k,
           project: {
             connect: { id: i },
           },
-        },
+          chunks: {
+            create:{
+              message: {
+                connect: { id: p + 1 },
+              },
+              project:{
+                connect: { id: i },
+              },
+            }
+          },
+        }
       })
     }
   }
