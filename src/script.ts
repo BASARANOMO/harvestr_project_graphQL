@@ -104,16 +104,16 @@ async function main() {
             connect: { id: i },
           },
           chunks: {
-            create:{
+            create: {
               message: {
                 connect: { id: p + 1 },
               },
-              project:{
+              project: {
                 connect: { id: i },
               },
-            }
+            },
           },
-        }
+        },
       })
     }
   }
