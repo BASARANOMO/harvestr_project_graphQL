@@ -8,7 +8,7 @@ export const TextSelection = objectType({
     t.model.length()
     t.model.submessagenumber()
     t.model.content()
-    t.model.chunkId()
+    //t.model.chunkId()
     t.model.chunk()
   },
 })

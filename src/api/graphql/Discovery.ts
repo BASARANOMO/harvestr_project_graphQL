@@ -3,7 +3,7 @@ import { objectType, extendType, stringArg } from '@nexus/schema'
 export const Discovery = objectType({
   name: 'Discovery',
   definition(t) {
-    t.model.projectId()
+    //t.model.projectId()
     t.model.id()
     t.model.title()
     t.model.description()

@@ -3,13 +3,13 @@ import { objectType, extendType, stringArg } from '@nexus/schema'
 export const Message = objectType({
   name: 'Message',
   definition(t) {
-    t.model.projectId()
+    //t.model.projectId()
     t.model.id()
     t.model.person_Message_requesterIdToPerson()
-    t.model.requesterId()
+    //t.model.requesterId()
     t.model.person_Message_submitterIdToPerson()
-    t.model.submitterId()
-    t.model.clientId()
+    //t.model.submitterId()
+    //t.model.clientId()
     t.model.title()
     t.model.content()
     t.model.project()

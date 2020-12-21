@@ -23,13 +23,13 @@ export const ENTITY_TYPE = enumType({
 export const ContributorAttribute = objectType({
   name: 'ContributorAttribute',
   definition(t) {
-    t.model.projectId()
+    //t.model.projectId()
     t.model.id()
     t.field('type', { type: 'entity_type' })
     t.model.name()
     t.field('type', { type: 'contributor_type' })
     t.model.project()
-    //t.model.contributorAttributeValues()
+    t.model.contributorAttributeValues()
   },
 })
 

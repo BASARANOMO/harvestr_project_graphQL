@@ -21,7 +21,7 @@ export const Account = objectType({
   definition(t) {
     t.model.id()
     t.model.username()
-    t.model.hashedPassword()
+    //t.model.hashedPassword()
     t.model.project()
     t.model.person()
     t.field('type', { type: 'account_type' })

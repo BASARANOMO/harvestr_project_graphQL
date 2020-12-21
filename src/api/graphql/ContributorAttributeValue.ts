@@ -4,14 +4,14 @@ export const ContributorAttributeValue = objectType({
   name: 'ContributorAttributeValue',
   definition(t) {
     t.model.id()
-    t.model.contributorAttributeId()
+    //t.model.contributorAttributeId()
     //t.model.contributorAttributeType()
-    t.model.personId()
-    t.model.organizationId()
+    //t.model.personId()
+    //t.model.organizationId()
     t.model.valuetext()
     t.model.contributorAttribute()
-    //t.model.organization()
-    //t.model.person()
+    t.model.organization()
+    t.model.person()
   },
 })
 

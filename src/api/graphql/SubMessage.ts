@@ -4,9 +4,9 @@ export const SubMessage = objectType({
   name: 'SubMessage',
   definition(t) {
     t.model.id()
-    t.model.submitterId()
+    //t.model.submitterId()
     t.model.content()
-    t.model.messageId()
+    //t.model.messageId()
     t.model.message()
     t.model.person()
   },

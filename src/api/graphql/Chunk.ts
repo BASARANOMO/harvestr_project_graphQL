@@ -3,15 +3,15 @@ import { objectType, extendType, stringArg } from '@nexus/schema'
 export const Chunk = objectType({
   name: 'Chunk',
   definition(t) {
-    t.model.projectId()
+    //t.model.projectId()
     t.model.id()
     t.model.message()
-    t.model.messageId()
-    t.model.discoveryId()
-    // t.model.discovery()
-    // t.model.message()
-    // t.model.project()
-    //t.model.textSelections()
+    //t.model.messageId()
+    //t.model.discoveryId()
+    t.model.discovery()
+    t.model.message()
+    t.model.project()
+    t.model.textSelections()
   },
 })
 
