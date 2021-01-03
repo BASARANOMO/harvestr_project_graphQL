@@ -3,7 +3,6 @@
 
 
 type Account {
-  hashedPassword: String!
   id: Int!
   person: Person!
   project: Project!
@@ -64,11 +63,11 @@ input AccountWhereUniqueInput {
 }
 
 type Chunk {
-  discoveryId: Int!
+  discovery: Discovery!
   id: Int!
   message: Message!
-  messageId: Int!
-  projectId: Int!
+  project: Project!
+  textSelections(after: TextSelectionWhereUniqueInput, before: TextSelectionWhereUniqueInput, first: Int, last: Int): [TextSelection!]!
 }
 
 input ChunkCreateManyWithoutDiscoveryInput {
@@ -151,10 +150,10 @@ enum contributor_type {
 }
 
 type ContributorAttribute {
+  contributorAttributeValues(after: ContributorAttributeValueWhereUniqueInput, before: ContributorAttributeValueWhereUniqueInput, first: Int, last: Int): [ContributorAttributeValue!]!
   id: Int!
   name: String!
   project: Project!
-  projectId: Int!
   type: contributor_type
 }
 
@@ -198,10 +197,9 @@ input ContributorAttributeCreateWithoutProjectInput {
 
 type ContributorAttributeValue {
   contributorAttribute: ContributorAttribute!
-  contributorAttributeId: Int!
   id: Int!
-  organizationId: Int!
-  personId: Int!
+  organization: Organization!
+  person: Person!
   valuetext: String
 }
 
@@ -276,7 +274,6 @@ type Discovery {
   description: String
   id: Int!
   project: Project!
-  projectId: Int!
   title: String!
 }
 
@@ -335,15 +332,11 @@ input IdTypeCompoundUniqueInput {
 
 type Message {
   chunks(after: ChunkWhereUniqueInput, before: ChunkWhereUniqueInput, first: Int, last: Int): [Chunk!]!
-  clientId: String
   content: String
   id: Int!
   person_Message_requesterIdToPerson: Person!
   person_Message_submitterIdToPerson: Person!
   project: Project!
-  projectId: Int!
-  requesterId: Int!
-  submitterId: Int!
   title: String
 }
 
@@ -469,8 +462,8 @@ type Organization {
   contributorAttributeValues(after: ContributorAttributeValueWhereUniqueInput, before: ContributorAttributeValueWhereUniqueInput, first: Int, last: Int): [ContributorAttributeValue!]!
   id: Int!
   name: String!
+  persons(after: PersonWhereUniqueInput, before: PersonWhereUniqueInput, first: Int, last: Int): [Person!]!
   project: Project!
-  projectId: Int!
 }
 
 input OrganizationCreateManyWithoutProjectInput {
@@ -537,9 +530,8 @@ type Person {
   message_Message_submitterIdToPersons(after: MessageWhereUniqueInput, before: MessageWhereUniqueInput, first: Int, last: Int): [Message!]!
   name: String!
   organization: Organization!
-  organizationId: Int!
   project: Project!
-  projectId: Int!
+  subMessages(after: SubMessageWhereUniqueInput, before: SubMessageWhereUniqueInput, first: Int, last: Int): [SubMessage!]!
 }
 
 input PersonCreateInput {
@@ -904,9 +896,7 @@ type SubMessage {
   content: String!
   id: Int!
   message: Message!
-  messageId: Int!
   person: Person!
-  submitterId: Int!
 }
 
 input SubMessageCreateManyWithoutMessageInput {
@@ -947,7 +937,6 @@ input SubMessageWhereUniqueInput {
 
 type TextSelection {
   chunk: Chunk!
-  chunkId: Int!
   content: String!
   id: Int!
   length: Float!

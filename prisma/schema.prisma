@@ -16,6 +16,8 @@ model Account {
   type           ACCOUNT_TYPE?
   person         Person        @relation(fields: [personId], references: [id])
   project        Project       @relation(fields: [projectId], references: [id])
+
+  @@index([username])
 }
 
 model Chunk {
@@ -62,6 +64,8 @@ model Discovery {
   description String?
   project     Project @relation(fields: [projectId], references: [id])
   chunks      Chunk[]
+
+  @@index([title])
 }
 
 model Message {
@@ -77,6 +81,8 @@ model Message {
   person_Message_submitterIdToPerson Person       @relation("Message_submitterIdToPerson", fields: [submitterId], references: [id])
   chunks                             Chunk[]
   subMessages                        SubMessage[]
+
+  @@index([title, content])
 }
 
 model Organization {
@@ -86,6 +92,8 @@ model Organization {
   project                    Project                     @relation(fields: [projectId], references: [id])
   contributorAttributeValues ContributorAttributeValue[]
   persons                    Person[]
+
+  @@index([name])
 }
 
 model Person {
@@ -101,6 +109,8 @@ model Person {
   message_Message_requesterIdToPersons Message[]                   @relation("Message_requesterIdToPerson")
   message_Message_submitterIdToPersons Message[]                   @relation("Message_submitterIdToPerson")
   subMessages                          SubMessage[]
+
+  @@index([name, email])
 }
 
 model Project {
@@ -113,6 +123,8 @@ model Project {
   messages              Message[]
   organizations         Organization[]
   persons               Person[]
+
+  @@index([name])
 }
 
 model SubMessage {
