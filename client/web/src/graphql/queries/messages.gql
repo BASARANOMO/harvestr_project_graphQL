@@ -1,0 +1,6 @@
+query messages {
+	sub_messages {
+		id
+		content
+	}
+}

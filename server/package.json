@@ -1,0 +1,42 @@
+{
+  "name": "project_graphQL",
+  "version": "1.0.0",
+  "main": "src/server.ts",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf dist",
+    "build": "yarn -s clean && yarn -s generate && tsc",
+    "style": "prettier --write 'src/**/*'",
+    "generate": "yarn -s generate:prisma && yarn -s generate:nexus",
+    "generate:prisma": "prisma generate",
+    "generate:nexus": "NODE_ENV=development ts-node --transpile-only src/schema",
+    "run:server": "ts-node src/server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@prisma/cli": "^2.13",
+    "@types/node": "^14.14.6",
+    "prettier": "^2.1.2",
+    "ts-node": "^9.0.0",
+    "ts-node-dev": "^1.0.0",
+    "typescript": "^4.0.5"
+  },
+  "dependencies": {
+    "@nexus/schema": "^0.19.0",
+    "@prisma/client": "^2.13.0",
+    "apollo-server": "^2.19.0",
+    "apollo-server-cache-redis": "^1.2.2",
+    "apollo-server-plugin-response-cache": "^0.5.7",
+    "graphql": "^15.4.0",
+    "nexus-plugin-prisma": "^0.26",
+    "redis": "^3.0.2"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all"
+  }
+}
