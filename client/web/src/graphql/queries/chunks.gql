@@ -1,0 +1,19 @@
+query chunks {
+	chunks {
+		id
+		message {
+			id
+			content
+			person_Message_requesterIdToPerson {
+				id
+			}
+			person_Message_submitterIdToPerson {
+				id
+			}
+		}
+		project {
+			id
+			name
+		}
+	}
+}

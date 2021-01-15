@@ -1,0 +1,11 @@
+query accounts {
+	accounts {
+		id
+		username
+		project {
+			id
+			name
+		}
+		type
+	}
+}

@@ -1,0 +1,6 @@
+#import "@/graphql/fragments/projects.gql"
+query projects {
+	projects {
+		...ProjectsFragment
+	}
+}

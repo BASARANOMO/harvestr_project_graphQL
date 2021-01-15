@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Getting started
 
 ```
@@ -51,3 +52,41 @@ Please find in the "Projects" tab some guidance on the steps to follow
 "graphql": "^15.4.0",
 "nexus-plugin-prisma": "^0.23.1"
 ```
+=======
+# Project Setup :bulb:
+
+J'ai séparé le Backend dans server, le front dans client/web.
+
+Quelques Remaques :
+
+- J'ai utilisé Vue 3 pour le front
+- J'ai utilisé les fonctions "beta" crud de Nexus pour construire les queries et les mutations
+
+## Backend first :card_file_box:
+
+#### First install the packages :white_check_mark:
+
+```shell
+yarn
+```
+
+#### Then launch the Playground :construction_worker:
+
+```shell
+yarn dev:nexus
+```
+
+## FrontEnd :art:
+
+#### First install the packages :white_check_mark:
+
+```shell
+yarn
+```
+
+#### Then launch the front :tada:
+
+```shell
+yarn serve
+```
+>>>>>>> 003a6a95fdfcdf482ab1db8a32be0ed823e24747
