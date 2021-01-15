@@ -20,6 +20,11 @@ To have launchd start redis now and restart at login:
 $ brew services start redis
 ```
 
+to stop it, just run:
+```
+brew services stop redis
+```
+
 ## To make your code prettier
 
 ```
