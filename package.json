@@ -28,7 +28,7 @@
     "@nexus/schema": "^0.19.0",
     "@prisma/client": "^2.13.0",
     "apollo-server": "^2.19.0",
-    "apollo-server-cache-redis": "^1.2.2",
+    "apollo-server-cache-redis": "^1.2.3",
     "apollo-server-plugin-response-cache": "^0.5.7",
     "graphql": "^15.4.0",
     "nexus-plugin-prisma": "^0.26",
