@@ -6,6 +6,20 @@ $ yarn build
 $ yarn run:server
 ```
 
+Make sure to install Redis:
+
+On Mac:
+
+```
+$ brew update
+$ brew install redis
+```
+
+To have launchd start redis now and restart at login:
+```
+$ brew services start redis
+```
+
 ## To make your code prettier
 
 ```
