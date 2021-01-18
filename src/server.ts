@@ -5,7 +5,7 @@ import { createContext } from './context'
 const { RedisCache } = require('apollo-server-cache-redis');
 const responseCachePlugin = require('apollo-server-plugin-response-cache');
 
-const cacheControl = { defaultMaxAge: 3600 };
+const cacheControl = { defaultMaxAge: 1 };
 
 const cache = new RedisCache({
   host: '127.0.0.1',

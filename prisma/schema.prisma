@@ -66,6 +66,7 @@ model Discovery {
   chunks      Chunk[]
 
   @@index([title])
+  @@index([projectId])
 }
 
 model Message {
@@ -83,6 +84,7 @@ model Message {
   subMessages                        SubMessage[]
 
   @@index([title, content])
+  @@index([projectId])
 }
 
 model Organization {
@@ -94,6 +96,7 @@ model Organization {
   persons                    Person[]
 
   @@index([name])
+  @@index([projectId])
 }
 
 model Person {
@@ -111,6 +114,7 @@ model Person {
   subMessages                          SubMessage[]
 
   @@index([name, email])
+  @@index([projectId])
 }
 
 model Project {
